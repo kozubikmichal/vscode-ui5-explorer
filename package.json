@@ -11,8 +11,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onView:ui5ApiReference",
-        "onCommand:extension.sayHello"
+        "onView:ui5ApiReference"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -28,11 +27,7 @@
                 "id": "ui5ApiReference",
                 "name": "Api Reference"
             }]
-        },
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
