@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 import ApiTreeItem from "./ApiTreeItem";
-import { Storage } from "../api/Storage";
 import { SymbolKind, SymbolVisibility } from "../api/IApiReference";
+import { Inject } from "typescript-ioc";
+import IStorage from "../api/IStorage";
 
 interface IApiTree {
 	[key: string]: ApiTreeItem;
@@ -9,16 +10,12 @@ interface IApiTree {
 
 export default class ApiTreeDataProvider implements vscode.TreeDataProvider<ApiTreeItem> {
 	private tree!: IApiTree;
-
-	constructor(
-		private storage: Storage = new Storage()
-	) { }
+	@Inject private storage!: IStorage;
 
 	onDidChangeTreeData?: vscode.Event<ApiTreeItem | null | undefined> | undefined;
 
 	getTreeItem(element: ApiTreeItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
-		element.update();
-		return element;
+		return element.update();
 	}
 
 	async getChildren(element?: ApiTreeItem | undefined): Promise<ApiTreeItem[]> {

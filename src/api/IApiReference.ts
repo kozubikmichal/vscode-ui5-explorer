@@ -49,7 +49,7 @@ export interface IApiReferenceLibrarySymbol {
 	export: string;
 	static: boolean;
 	visibility: SymbolVisibility;
-	description: string;
+	description?: string;
 	component: string;
 	hasSample: boolean;
 	title: string;

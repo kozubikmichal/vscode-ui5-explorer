@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
 import { IApiReferenceIndexSymbol } from "../api/IApiReference";
+import Config from "../utils/Config";
 
 export default class ApiTreeItem extends vscode.TreeItem {
 	public children: ApiTreeItem[] = [];
@@ -23,9 +24,17 @@ export default class ApiTreeItem extends vscode.TreeItem {
 		this.update();
 	}
 
-	public update() {
+	public update(): ApiTreeItem {
 		this.id = this.symbol.name;
 		this.label = this.IsRoot ? this.symbol.name : this.symbol.name.replace(`${this.parent.symbol.name}.`, "");
 		this.collapsibleState = this.HasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None;
+
+		this.command = this.wrapperOnly ? undefined : {
+			command: Config.Commands.Render,
+			title: "Show",
+			arguments: [this.symbol]
+		};
+
+		return this;
 	}
 }

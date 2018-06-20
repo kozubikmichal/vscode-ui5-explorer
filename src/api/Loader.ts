@@ -20,8 +20,16 @@ class Loader extends ILoader {
 
 	public fetchLibrary(id: string): Promise<IApiReferenceLibrary> {
 		return this.request.get(
-			this.UrlConfig.libraryRoot + id.replace(".", "/")
+			this.createLibraryUrl(id)
 		);
+	}
+
+	private createLibraryUrl(id: string): string {
+		return [
+			this.UrlConfig.libraryRoot,
+			id.replace(/\./g, "/"),
+			"designtime/apiref/api.json"
+		].join("/");
 	}
 }
 

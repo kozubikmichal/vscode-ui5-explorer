@@ -6,7 +6,7 @@ interface ILibraries {
 	[key: string]: IApiReferenceLibrary;
 }
 
-class Storage {
+class MemoryStorage {
 	@Inject private loader!: ILoader;
 
 	private cachedLibraries: ILibraries = {};
@@ -29,4 +29,4 @@ class Storage {
 	}
 }
 
-export { Storage };
+export { MemoryStorage };

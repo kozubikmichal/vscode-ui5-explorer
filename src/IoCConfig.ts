@@ -1,9 +1,11 @@
-import { Container } from "typescript-ioc";
+import { Container, Scope } from "typescript-ioc";
 
 import Loader from "./api/Loader";
 import ILoader from "./api/ILoader";
 import IRequest from "./utils/IRequest";
 import Request from "./utils/Request";
+import IStorage from "./api/IStorage";
+import { MemoryStorage } from "./api/MemoryStorage";
 
 export default class Configuration {
 	static configure() {
@@ -14,5 +16,6 @@ export default class Configuration {
 
 		Container.bind(ILoader).to(Loader);
 		Container.bind(IRequest).to(Request);
+		Container.bind(IStorage).to(MemoryStorage).scope(Scope.Singleton);
 	}
 }
