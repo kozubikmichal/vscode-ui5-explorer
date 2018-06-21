@@ -51,6 +51,7 @@ export default class PanelRenderer extends IPanelRenderer {
 					${this.buildAssociations(symbol, metadata)}
 					${this.buildEvents(symbol, metadata)}
 					${this.buildMethods(symbol, metadata)}
+
 			</body>
 		</html>
 		`;
@@ -106,7 +107,7 @@ export default class PanelRenderer extends IPanelRenderer {
 				</tr>
 				${constructor.parameters.map(param => `
 					<tr>
-						<td>${"  ".repeat(param.depth || 0)}<strong>${param.name}${param.optional && "?"}</strong></td>
+						<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional && "?"}</strong></td>
 						<td>${param.types.map(t => t.name).join(" | ")}</td>
 						<td>${param.defaultValue || ""}</td>
 						<td>${param.description}</td>
@@ -216,21 +217,30 @@ export default class PanelRenderer extends IPanelRenderer {
 
 		return events ? `
 			<h2>Events</h2>
-			<table>
-				<tr>
-					<th>Event</th>
-					<th>Description</th>
-				</tr>
 
-				${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
+			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
+				<h3>${event.name}</h3>
+
+				${event.description}
+
+				<table>
 					<tr>
-						<td><strong>${event.name}</strong></td>
-						<td>${event.description}</td>
+						<th>Param</th>
+						<th>Type</th>
+						<th>Description</th>
 					</tr>
-				`).join("")
+					${event.parameters.map(param => `
+						<tr>
+							<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+							<td>${param.type}</td>
+							<td>${param.description}</td>
+						</td>
+					`).join("")}
+
+				</table>
+				<br />
+			`).join("")
 			}
-			<table>
-			<br />
 		` : "";
 	}
 
@@ -241,21 +251,48 @@ export default class PanelRenderer extends IPanelRenderer {
 
 		return methods ? `
 			<h2>Methods</h2>
-			<table>
-				<tr>
-					<th>Method</th>
-					<th>Description</th>
-				</tr>
 
-				${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
+			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
+				<h3>${method.name}</h3>
+
+				${method.description}
+				<code>${method.code}</code>
+
+				<table>
 					<tr>
-						<td><strong>${method.name}</strong></td>
-						<td>${method.description}</td>
+						<th>Param</th>
+						<th>Type</th>
+						<th>Default Value</th>
+						<th>Description</th>
 					</tr>
+
+					${method.parameters && method.parameters.map(param => `
+						<tr>
+							<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+							<td>${param.types.map(t => t.value).join(" | ")}</td>
+							<td>${param.defaultValue}</td>
+							<td>${param.description}</td>
+						</tr>
+					`).join("")
+				}
+				</table>
+				<br />
+
+				<table>
+					<tr>
+						<th>Returns</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td>${method.returnValue.type}</td>
+						<td>${method.returnValue.description}</td>
+					</tr>
+				</table>
+				<br />
+
 				`).join("")
 			}
-			<table>
-			<br />
 		` : "";
 	}
 

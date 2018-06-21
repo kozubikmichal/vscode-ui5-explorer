@@ -162,7 +162,7 @@ export interface IApiReferenceSymbolMethod {
 			linkEnabled: boolean
 		}[];
 	};
-	parameters: {
+	parameters?: {
 		name: string;
 		optional: boolean;
 		description: string;
@@ -171,7 +171,7 @@ export interface IApiReferenceSymbolMethod {
 			href: string;
 		}[];
 		defaultValue: string;
-	};
+	}[];
 	description: string;
 	code: string;
 }

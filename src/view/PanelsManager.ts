@@ -49,7 +49,8 @@ export default class PanelsManager {
 			title,
 			vscode.ViewColumn.One,
 			{
-				enableCommandUris: true
+				enableCommandUris: true,
+				enableScripts: true
 			}
 		);
 
