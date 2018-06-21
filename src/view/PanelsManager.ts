@@ -3,45 +3,41 @@ import * as vscode from "vscode";
 import { IApiReferenceIndexSymbol, IApiReferenceLibrarySymbol } from "../api/IApiReference";
 import IStorage from "../api/IStorage";
 import { Inject } from "typescript-ioc";
+import IPanelRenderer from "./IPanelRenderer";
 
-export default class PageRenderer {
+export default class PanelsManager {
 	private panels: {
 		[key: string]: vscode.WebviewPanel
 	} = {};
 
-	@Inject private storage!: IStorage;
+	@Inject private apiStorage!: IStorage;
+	@Inject private renderer!: IPanelRenderer;
 
-	private static readonly DefaultPanelContent = `
-		<html>
-			<head></head>
-			<body>
-				loading...
-			</body>
-		</html>
-	`;
+	public async show(item: string | IApiReferenceIndexSymbol) {
+		if (typeof item === "string") {
+			let index = await this.apiStorage.getApiIndex();
 
-	public async show(item: IApiReferenceIndexSymbol) {
+			this.showInternal(index.symbols.find(s => s.name === item) as IApiReferenceIndexSymbol);
+		} else {
+			this.showInternal(item);
+		}
+	}
+
+	private async showInternal(item: IApiReferenceIndexSymbol) {
 		const panel = this.getPanel(item);
 		panel.reveal();
 
-		let library = await this.storage.getLibrary(item.lib);
+		let library = await this.apiStorage.getLibrary(item.lib);
 
 		let symbol = library.symbols.find((i) => i.name === item.name) as IApiReferenceLibrarySymbol;
 
-		panel.webview.html = `
-		<html>
-			<head></head>
-			<body>
-				${symbol.description || ""}
-			</body>
-		</html>
-		`;
+		this.renderer.renderSymbol(panel, symbol);
 	}
 
 	private getPanel(item: IApiReferenceIndexSymbol): vscode.WebviewPanel {
 		if (!this.panels[item.name]) {
 			this.panels[item.name] = this.createPanel(item.name, item.name);
-			this.panels[item.name].onDidDispose(() => this.onPanelDispose(item.name));
+			this.panels[item.name].onDidDispose(() => delete this.panels[item.name]);
 		}
 
 		return this.panels[item.name];
@@ -52,15 +48,13 @@ export default class PageRenderer {
 			id,
 			title,
 			vscode.ViewColumn.One,
-			{}
+			{
+				enableCommandUris: true
+			}
 		);
 
-		panel.webview.html = PageRenderer.DefaultPanelContent;
+		this.renderer.renderDefault(panel);
 
 		return panel;
-	}
-
-	private onPanelDispose(id: string) {
-		delete this.panels[id];
 	}
 }

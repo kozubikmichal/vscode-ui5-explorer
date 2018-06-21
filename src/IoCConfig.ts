@@ -6,6 +6,8 @@ import IRequest from "./utils/IRequest";
 import Request from "./utils/Request";
 import IStorage from "./api/IStorage";
 import { MemoryStorage } from "./api/MemoryStorage";
+import IPanelRenderer from "./view/IPanelRenderer";
+import PanelRenderer from "./view/PanelRenderer";
 
 export default class Configuration {
 	static configure() {
@@ -17,5 +19,6 @@ export default class Configuration {
 		Container.bind(ILoader).to(Loader);
 		Container.bind(IRequest).to(Request);
 		Container.bind(IStorage).to(MemoryStorage).scope(Scope.Singleton);
+		Container.bind(IPanelRenderer).to(PanelRenderer);
 	}
 }

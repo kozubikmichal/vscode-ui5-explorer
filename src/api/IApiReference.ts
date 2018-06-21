@@ -9,7 +9,8 @@ export enum SymbolKind {
 export enum SymbolVisibility {
 	Public = "public",
 	Protected = "protected",
-	Private = "private"
+	Private = "private",
+	Hidden = "hidden"
 }
 
 
@@ -48,6 +49,7 @@ export interface IApiReferenceLibrarySymbol {
 	module: string;
 	export: string;
 	static: boolean;
+	since: string;
 	visibility: SymbolVisibility;
 	description?: string;
 	component: string;
