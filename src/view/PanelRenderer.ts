@@ -51,6 +51,7 @@ export default class PanelRenderer extends IPanelRenderer {
 					${this.buildHeader(symbol)}
 					${this.buildOverview(symbol)}
 					${this.buildConstructor(symbol)}
+					${this.buildFields(symbol)}
 					${this.buildProperties(symbol, metadata)}
 					${this.buildAggregations(symbol, metadata)}
 					${this.buildAssociations(symbol, metadata)}
@@ -136,6 +137,28 @@ export default class PanelRenderer extends IPanelRenderer {
 			</table>
 			<br />
 		`;
+	}
+
+	private buildFields(symbol: IApiReferenceLibrarySymbol): string {
+		let { properties } = symbol;
+
+		return properties ? `
+			<h2 id="fields">Fields</h2>
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+
+				${properties.map(prop => `
+					<tr>
+						<td><strong>${prop.name}</strong></td>
+						<td>${prop.description} Visibility: ${prop.visibility}</td>
+					</tr>
+				`).join("")}
+			<table>
+			<br />
+		` : "";
 	}
 
 	private buildProperties(symbol: IApiReferenceLibrarySymbol, metadata?: IApiReferenceUI5Metadata): string {

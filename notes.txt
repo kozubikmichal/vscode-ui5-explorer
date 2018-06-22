@@ -15,7 +15,7 @@ TODO:
 		*	Search input
 
 	Others
-		*	ENUMS
+		*	DONE: ENUMS
 		*	Second treeview -> outline with page navigation (methods, properties etc...)
 		*	Search command -> list all and select some
 
