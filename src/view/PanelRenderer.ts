@@ -60,6 +60,8 @@ export default class PanelRenderer extends IPanelRenderer {
 			</body>
 		</html>
 		`;
+
+		panel.webview.html = this.adaptLinks(symbol, panel.webview.html);
 	}
 
 	private buildHeader(symbol: IApiReferenceLibrarySymbol): string {
@@ -67,16 +69,12 @@ export default class PanelRenderer extends IPanelRenderer {
 			<a href="${this.UrlConfig.sampleRoot}${symbol.name}">${symbol.name}</a>
 		` : "";
 
-		let docuLink = symbol.docuLink ? `
-			<a href="${this.UrlConfig.documentationRoot}${symbol.docuLink}">${symbol.docuLinkText}</a>
-		` : "";
-
-		let uxLink = symbol.uxGuidelinesLink ? `
-			<a href="${symbol.uxGuidelinesLink}">${symbol.uxGuidelinesLinkText}</a>
-		` : "";
-		let extendsUri = encodeURI(`command:${ExtensionConfig.Commands.Render}?${JSON.stringify(symbol.extends)}`);
 		let extendsLink = symbol.extends ? `
-			<a href="${extendsUri}">${symbol.extends}</a>
+			<a href="#/api/${symbol.extends}">${symbol.extends}</a>
+		`: "";
+
+		let docuLink = symbol.docuLink ? `
+			<a href="#/topic/${symbol.docuLink}">${symbol.docuLinkText}</a>
 		`: "";
 
 		return `
@@ -86,7 +84,7 @@ export default class PanelRenderer extends IPanelRenderer {
 				<div class="grid-item">
 					<strong>Control Sample:</strong> ${sampleLink}<br />
 					<strong>Documentation:</strong> ${docuLink} <br />
-					<strong>UX Guidelines:</strong> ${uxLink} <br />
+					<strong>UX Guidelines:</strong> <a href="${symbol.uxGuidelinesLink || ''}">${symbol.uxGuidelinesLinkText || ''}</a> <br />
 				</div>
 				<div class="grid-item">
 					<strong>Extends:</strong> ${extendsLink}<br />
@@ -103,7 +101,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 	private buildOverview(symbol: IApiReferenceLibrarySymbol): string {
 		return symbol.description ? `
-			<h2>Overview</h2>
+			<h2 id="overview">Overview</h2>
 			${symbol.description}
 		` : "";
 	}
@@ -116,7 +114,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		}
 
 		return `
-			<h2>Constructor</h2>
+			<h2 id="constructor">Constructor</h2>
 			${constructor.description}
 			<code>${constructor.codeExample}</code>
 			<table>
@@ -148,7 +146,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { properties } = metadata;
 
 		return properties ? `
-			<h2>Properties</h2>
+			<h2 id="properties">Properties</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -178,7 +176,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { aggregations } = metadata;
 
 		return aggregations ? `
-			<h2>Aggregations</h2>
+			<h2 id="aggregations">Aggregations</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -208,7 +206,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 		let { associations } = metadata;
 		return associations ? `
-			<h2>Associations</h2>
+			<h2 id="associations">Associations</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -237,10 +235,10 @@ export default class PanelRenderer extends IPanelRenderer {
 		// TODO: expandable panel with detailed info
 
 		return events ? `
-			<h2>Events</h2>
+			<h2 id="events">Events</h2>
 
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
-				<h3>${event.name}</h3>
+				<h3 id="${event.name}">${event.name}</h3>
 
 				${event.description}
 
@@ -271,10 +269,10 @@ export default class PanelRenderer extends IPanelRenderer {
 		// TODO: expandable panel with detailed info
 
 		return methods ? `
-			<h2>Methods</h2>
+			<h2 id="methods">Methods</h2>
 
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
-				<h3>${method.name}</h3>
+				<h3 id="${method.name}">${method.name}</h3>
 
 				${method.description}
 				<code>${method.code}</code>
@@ -323,5 +321,21 @@ export default class PanelRenderer extends IPanelRenderer {
 		if (symbol["ui5-metamodel"] && symbol["ui5-metadata"]) {
 			return symbol["ui5-metadata"] as IApiReferenceUI5Metadata;
 		}
+	}
+
+	private adaptLinks(symbol: IApiReferenceLibrarySymbol, input: string): string {
+		let ownRegex = new RegExp(`href="#/api/${symbol.name}/(events|methods)/(\\w+)"`, "g");
+		let replaced = input
+			.replace(ownRegex, `href="#$2"`)
+			.replace(
+				/href="#\/api\/([\w\.]*)(\/[\w\.]*)*"/g,
+				`href=\"${encodeURI(`command:${ExtensionConfig.Commands.Render}?${JSON.stringify("$1")}`)}\" title="$1"`
+			)
+			.replace(
+				/href="#\/topic\/([^"]+)"/g,
+				`href="${this.UrlConfig.documentationRoot}$1"`
+			);
+
+		return replaced;
 	}
 }

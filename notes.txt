@@ -7,11 +7,14 @@ TODO:
 		*	Fix links
 			*	add anchors
 			*	replace links
+				*	other symbols - done
+				*	other symbols + navigation to method
 
 	Treeview
 		*	Dont show page on expand
 
 	Others
+		*	ENUMS
 		*	Second treeview -> outline with page navigation (methods, properties etc...)
 
 
