@@ -3,6 +3,7 @@ import ILoader from "./ILoader";
 import { Provides, Inject } from "typescript-ioc";
 import IRequest from "../utils/IRequest";
 import Config, { IUrlConfig } from "./Config";
+import * as vscode from 'vscode';
 
 @Provides(ILoader)
 class Loader extends ILoader {
@@ -13,15 +14,27 @@ class Loader extends ILoader {
 	}
 
 	public fetchApiIndex(): Promise<IApiReferenceIndex> {
-		return this.request.get(
-			this.UrlConfig.apiIndex
-		);
+		return vscode.window.withProgress({
+			cancellable: false,
+			location: vscode.ProgressLocation.Notification,
+			title: "Loading UI5 Api Reference"
+		}, () => {
+			return this.request.get(
+				this.UrlConfig.apiIndex
+			);
+		}) as Promise<IApiReferenceIndex>;
 	}
 
 	public fetchLibrary(id: string): Promise<IApiReferenceLibrary> {
-		return this.request.get(
-			this.createLibraryUrl(id)
-		);
+		return vscode.window.withProgress({
+			cancellable: false,
+			location: vscode.ProgressLocation.Notification,
+			title: `Loading ${id}`
+		}, () => {
+			return this.request.get(
+				this.createLibraryUrl(id)
+			);
+		}) as Promise<IApiReferenceLibrary>;
 	}
 
 	private createLibraryUrl(id: string): string {
