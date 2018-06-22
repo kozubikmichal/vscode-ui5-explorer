@@ -1,21 +1,23 @@
 TODO:
 
 	Webview panel:
-		*	Search support (ctrl+f)
+		*	DONE: Search support (ctrl+f)
 		*	Collapsible/expandable methods/events
 		*	Table of contents
 		*	Fix links
-			*	add anchors
+			*	DONE: add anchors
 			*	replace links
-				*	other symbols - done
+				*	DONE: other symbols
 				*	other symbols + navigation to method
 
 	Treeview
 		*	Dont show page on expand
+		*	Search input
 
 	Others
 		*	ENUMS
 		*	Second treeview -> outline with page navigation (methods, properties etc...)
+		*	Search command -> list all and select some
 
 
 treeview sample project: https://github.com/Microsoft/vscode-extension-samples/blob/master/tree-view-sample/package.json
