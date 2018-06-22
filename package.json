@@ -11,10 +11,15 @@
         "Other"
     ],
     "activationEvents": [
-        "onView:ui5ApiReference"
+        "onView:ui5ApiReference",
+        "onCommand:ui5explorer.Search"
     ],
     "main": "./out/extension",
     "contributes": {
+        "commands": [{
+            "command": "ui5explorer.Search",
+            "title": "UI5 Explorer: Search"
+        }],
         "viewsContainers": {
             "activitybar": [{
                 "id": "ui5-explorer",
