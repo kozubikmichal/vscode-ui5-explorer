@@ -18,7 +18,7 @@ export default class Search {
 				};
 			}), {
 				canPickMany: false,
-				placeHolder: "Start writing..."
+				placeHolder: "Start typing..."
 			}
 		).then(selected => this.searchResultHandler(selected));
 	}

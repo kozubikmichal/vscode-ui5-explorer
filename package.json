@@ -18,12 +18,14 @@
     "contributes": {
         "commands": [{
             "command": "ui5explorer.Search",
-            "title": "UI5 Explorer: Search"
+            "title": "Search",
+            "category": "UI5 Explorer",
+            "icon": "media/icon-search.svg"
         }],
         "viewsContainers": {
             "activitybar": [{
                 "id": "ui5-explorer",
-                "title": "UI5 Explorer",
+                "title": "UI5",
                 "icon": "media/ui5.png"
             }]
         },
@@ -31,6 +33,13 @@
             "ui5-explorer": [{
                 "id": "ui5ApiReference",
                 "name": "Api Reference"
+            }]
+        },
+        "menus": {
+            "view/title": [{
+                "command": "ui5explorer.Search",
+                "when": "view == ui5ApiReference",
+                "group": "navigation"
             }]
         }
     },
