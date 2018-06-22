@@ -17,7 +17,7 @@ TODO:
 	Others
 		*	DONE: ENUMS
 		*	Second treeview -> outline with page navigation (methods, properties etc...)
-		*	Search command -> list all and select some
+		*	DONE: Search command -> list all and select some
 		*	Configuration (Open/SAP ui5)
 
 
