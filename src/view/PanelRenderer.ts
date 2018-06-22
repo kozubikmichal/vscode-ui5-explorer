@@ -1,8 +1,13 @@
 import * as vscode from "vscode";
 import { IApiReferenceLibrarySymbol, IApiReferenceUI5Metadata, SymbolVisibility } from "../api/IApiReference";
 import IPanelRenderer from "./IPanelRenderer";
+import Config, { IUrlConfig } from "../api/Config";
+import ExtensionConfig from "../utils/Config";
 
 export default class PanelRenderer extends IPanelRenderer {
+	private get UrlConfig(): IUrlConfig {
+		return Config.Url.SAPUI5;
+	}
 
 	public renderDefault(panel: vscode.WebviewPanel) {
 		panel.webview.html = `
@@ -58,17 +63,33 @@ export default class PanelRenderer extends IPanelRenderer {
 	}
 
 	private buildHeader(symbol: IApiReferenceLibrarySymbol): string {
+		let sampleLink = symbol.hasSample ? `
+			<a href="${this.UrlConfig.sampleRoot}${symbol.name}">${symbol.name}</a>
+		` : "";
+
+		let docuLink = symbol.docuLink ? `
+			<a href="${this.UrlConfig.documentationRoot}${symbol.docuLink}">${symbol.docuLinkText}</a>
+		` : "";
+
+		let uxLink = symbol.uxGuidelinesLink ? `
+			<a href="${symbol.uxGuidelinesLink}">${symbol.uxGuidelinesLinkText}</a>
+		` : "";
+		let extendsUri = encodeURI(`command:${ExtensionConfig.Commands.Render}?${JSON.stringify(symbol.extends)}`);
+		let extendsLink = symbol.extends ? `
+			<a href="${extendsUri}">${symbol.extends}</a>
+		`: "";
+
 		return `
-			<h1>${symbol.kind} ${symbol.name}</h1>
+			<h1>${symbol.title}</h1>
 
 			<div class="grid-container">
 				<div class="grid-item">
-					<strong>Control Sample:</strong><br />
-					<strong>Documentation:</strong> <br />
-					<strong>UX Guidelines:</strong> <br />
+					<strong>Control Sample:</strong> ${sampleLink}<br />
+					<strong>Documentation:</strong> ${docuLink} <br />
+					<strong>UX Guidelines:</strong> ${uxLink} <br />
 				</div>
 				<div class="grid-item">
-					<strong>Extends:</strong> ${symbol.extends || ""}<br />
+					<strong>Extends:</strong> ${extendsLink}<br />
 					<strong>Visibility:</strong> ${symbol.visibility || ""}<br />
 					<strong>Module:</strong> ${symbol.module || ""}<br />
 				</div>
@@ -278,18 +299,20 @@ export default class PanelRenderer extends IPanelRenderer {
 				</table>
 				<br />
 
-				<table>
-					<tr>
-						<th>Returns</th>
-						<th>Description</th>
-					</tr>
+				${method.returnValue && `
+					<table>
+						<tr>
+							<th>Returns</th>
+							<th>Description</th>
+						</tr>
 
-					<tr>
-						<td>${method.returnValue.type}</td>
-						<td>${method.returnValue.description}</td>
-					</tr>
-				</table>
-				<br />
+						<tr>
+							<td>${method.returnValue.type}</td>
+							<td>${method.returnValue.description}</td>
+						</tr>
+					</table>
+					<br />
+				`}
 
 				`).join("")
 			}

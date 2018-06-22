@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 import ApiTreeDataProvider from './tree/ApiTreeDataProvider';
-import Config from "./utils/Config";
+import ExtensionConfig from "./utils/Config";
 import PanelsManager from './view/PanelsManager';
 
 export default class ExtensionManager {
@@ -9,9 +9,9 @@ export default class ExtensionManager {
 
 		let renderer = new PanelsManager();
 
-		vscode.window.registerTreeDataProvider(Config.UI5ExplorerViewId, new ApiTreeDataProvider());
+		vscode.window.registerTreeDataProvider(ExtensionConfig.UI5ExplorerViewId, new ApiTreeDataProvider());
 
-		vscode.commands.registerCommand(Config.Commands.Render, renderer.show, renderer);
+		vscode.commands.registerCommand(ExtensionConfig.Commands.Render, renderer.show, renderer);
 	}
 
 	public deactivate() {

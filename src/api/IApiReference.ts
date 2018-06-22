@@ -64,6 +64,10 @@ export interface IApiReferenceLibrarySymbol {
 	events: IApiReferenceSymbolEvent[];
 	methods: IApiReferenceSymbolMethod[];
 	properties: IApiReferenceSymbolProperty[];
+	docuLink: string;
+	docuLinkText: string;
+	uxGuidelinesLink: string;
+	uxGuidelinesLinkText: string;
 }
 
 export interface IApiReferenceLibrarySymbolNode {
