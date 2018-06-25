@@ -2,6 +2,18 @@
 
 This extension brings api reference for [SAPUI5](https://sapui5.hana.ondemand.com/) and [OpenUI5](https://openui5.org/) Frameworks directly into the [Visual Studio Code](https://code.visualstudio.com/).
 
+## Installation
+
+As this extension is not part of public VSCode marketplace yet it is not possible to install it directly from VSCode extension manager.
+
+How to get this extension working:
+
+Easy way:
+1. Download the latest .vsix installer from this repo: https://github.com/kozubikmichal/vscode-ui5-explorer/installers/ui5-explorer-latest.vsix
+2. Run command line and navigate to the folder with downloaded file
+3. Run ```code --install-extension ui5-explorer-latest.vsix```
+4. Now you should see the extension in installed extensions list and you should be able to use its features
+
 ## Features
 
 ### Browse
