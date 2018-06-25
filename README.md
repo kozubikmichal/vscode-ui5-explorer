@@ -1,65 +1,78 @@
-# ui5-explorer README
+# UI5 Explorer
 
-This is the README for your extension "ui5-explorer". After writing up a brief description, we recommend including the following sections.
+This extension brings api reference for [SAPUI5](https://sapui5.hana.ondemand.com/) and [OpenUI5](https://openui5.org/) Frameworks directly into the [Visual Studio Code](https://code.visualstudio.com/).
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Browse
 
-For example if there is an image subfolder under your extension project workspace:
+You can browse through the whole api reference using new activity bar panel. To open the browser simply click the UI5 icon:
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![feature browser](media/feature-browser.png)
 
-## Requirements
+### Search
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+UI5 Explorer also allows you to search for specific module you want to invesitage. To open search bar you can simply click the search icon:
+
+![feature search-by-icon](media/feature-search-by-icon.png)
+
+Or execute **UI5 Explorer: Search** command:
+
+![feature search-by-command](media/feature-search-by-command.png)
+
+After that you will be prompted to select which module you want to open:
+
+![feature search-quickpick](media/feature-search-quickpick.png)
+
+### Explore
+
+When you select a module to explore either by selecting it from tree or by search input you can see the whole module description:
+
+![feature explorer](media/feature-explorer.png)
+
+Currently these parts are supported and displayed:
+  * Header with general information (library, component, version, links...)
+  * Overview description
+  * Constructor
+  * Fields
+  * Methods
+  * Events
+  * Properties
+  * Aggregations
+  * Associations
+
+In the future there will be added support for:
+  * Inherited method, properties etc.
+  * Collapsible/Expandable methods and events descriptions
+  * Kind of *Table of contents* at the top of the page
+  * Outline view under the Api Reference tree browser
+
+Within the module exploration there are several link types fully working:
+  * Anchor links that scolls the page to the method/event of the current module
+  ![feature link-anchor](media/feature-link-anchor.gif)
+  * Api links that navigates you to the new view with another module explorer
+  ![feature link-api](media/feature-link-api.gif)
+  * External links navigating you to the external sources (eg. documentation, guidelines etc.)
+  ![feature link-external](media/feature-link-external.png)
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* `ui5explorer.framework`: select whether to fetch data for [OpenUI5](https://openui5.org/) (default) or [SAPUI5](https://sapui5.hana.ondemand.com/) Framework
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+Initial release
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
+## FAQ
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+Feel free to open a new issue here on github if you find something not working or if you have some feature request.
 
 **Enjoy!**

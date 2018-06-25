@@ -1,3 +1,5 @@
+import ExtensionConfig, { UI5Framework } from "../utils/ExtensionConfig";
+
 export interface IUrlConfig {
 	apiIndex: string;
 	libraryRoot: string;
@@ -5,14 +7,12 @@ export interface IUrlConfig {
 	documentationRoot: string;
 }
 
-type Sources = "OpenUI5" | "SAPUI5";
-
 type UrlConfigs = {
-	[key in Sources]: IUrlConfig;
+	[key in UI5Framework]: IUrlConfig;
 };
 
 export default class Config {
-	static readonly Url: UrlConfigs = {
+	private static readonly sources: UrlConfigs = {
 		SAPUI5: {
 			apiIndex: "https://sapui5.hana.ondemand.com/docs/api/api-index.json",
 			libraryRoot: "https://sapui5.hana.ondemand.com/test-resources/",
@@ -26,4 +26,8 @@ export default class Config {
 			documentationRoot: "https://openui5.hana.ondemand.com/#/topic/"
 		}
 	};
+
+	static get Url(): IUrlConfig {
+		return this.sources[ExtensionConfig.getUI5Framework()];
+	}
 }

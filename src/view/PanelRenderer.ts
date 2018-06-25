@@ -2,11 +2,11 @@ import * as vscode from "vscode";
 import { IApiReferenceLibrarySymbol, IApiReferenceUI5Metadata, SymbolVisibility } from "../api/IApiReference";
 import IPanelRenderer from "./IPanelRenderer";
 import Config, { IUrlConfig } from "../api/Config";
-import ExtensionConfig from "../utils/Config";
+import ExtensionConfig from "../utils/ExtensionConfig";
 
 export default class PanelRenderer extends IPanelRenderer {
 	private get UrlConfig(): IUrlConfig {
-		return Config.Url.SAPUI5;
+		return Config.Url;
 	}
 
 	public renderDefault(panel: vscode.WebviewPanel) {

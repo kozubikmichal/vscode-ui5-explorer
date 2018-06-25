@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import ExtensionConfig from './utils/Config';
+import ExtensionConfig from './utils/ExtensionConfig';
 import { Inject } from 'typescript-ioc';
 import IStorage from './api/IStorage';
 

@@ -10,7 +10,7 @@ class Loader extends ILoader {
 	@Inject private request!: IRequest;
 
 	private get UrlConfig(): IUrlConfig {
-		return Config.Url.SAPUI5;
+		return Config.Url;
 	}
 
 	public fetchApiIndex(): Promise<IApiReferenceIndex> {

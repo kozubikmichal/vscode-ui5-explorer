@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
 import { IApiReferenceIndexSymbol } from "../api/IApiReference";
-import ExtensionConfig from "../utils/Config";
+import ExtensionConfig from "../utils/ExtensionConfig";
 
 export default class ApiTreeItem extends vscode.TreeItem {
 	public children: ApiTreeItem[] = [];

@@ -3,7 +3,11 @@
     "displayName": "ui5-explorer",
     "description": "UI5 Api Reference Explorer",
     "version": "0.0.1",
-    "publisher": "kozubikmichal",
+    "publisher": "michalkozubik",
+    "repository": {
+        "type": "git",
+        "url": "git@github.wdf.sap.corp:I336114/ui5-explorer.git"
+    },
     "engines": {
         "vscode": "^1.24.0"
     },
@@ -41,7 +45,19 @@
                 "when": "view == ui5ApiReference",
                 "group": "navigation"
             }]
-        }
+        },
+        "configuration": [{
+            "title": "UI5 Explorer",
+            "properties": {
+                "ui5explorer.framework": {
+                    "enum": [
+                        "OpenUI5",
+                        "SAPUI5"
+                    ],
+                    "default": "OpenUI5"
+                }
+            }
+        }]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

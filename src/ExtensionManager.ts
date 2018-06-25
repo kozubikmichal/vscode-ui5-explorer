@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 import ApiTreeDataProvider from './tree/ApiTreeDataProvider';
-import ExtensionConfig from "./utils/Config";
+import ExtensionConfig from "./utils/ExtensionConfig";
 import PanelsManager from './view/PanelsManager';
 import Search from './Search';
 
