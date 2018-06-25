@@ -9,7 +9,7 @@ As this extension is not part of public VSCode marketplace yet it is not possibl
 How to get this extension working:
 
 Easy way:
-1. Download the latest .vsix installer from this repo: https://github.com/kozubikmichal/vscode-ui5-explorer/installers/ui5-explorer-latest.vsix
+1. Download the latest .vsix installer from this repo: https://github.com/kozubikmichal/vscode-ui5-explorer/raw/master/installers/ui5-explorer-latest.vsix
 2. Run command line and navigate to the folder with downloaded file
 3. Run ```code --install-extension ui5-explorer-latest.vsix```
 4. Now you should see the extension in installed extensions list and you should be able to use its features
