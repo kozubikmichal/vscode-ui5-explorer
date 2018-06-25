@@ -16,12 +16,12 @@
     ],
     "activationEvents": [
         "onView:ui5ApiReference",
-        "onCommand:ui5explorer.Search"
+        "onCommand:extension.ui5explorer.search"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [{
-            "command": "ui5explorer.Search",
+            "command": "extension.ui5explorer.search",
             "title": "Search",
             "category": "UI5 Explorer",
             "icon": "media/icon-search.svg"
@@ -41,7 +41,7 @@
         },
         "menus": {
             "view/title": [{
-                "command": "ui5explorer.Search",
+                "command": "extension.ui5explorer.search",
                 "when": "view == ui5ApiReference",
                 "group": "navigation"
             }]
@@ -71,12 +71,12 @@
         "@types/node": "^7.0.43",
         "tslint": "^5.8.0",
         "typescript": "^2.6.1",
-        "typescript-ioc": "^1.2.4",
-        "vscode": "^1.1.6"
+        "vscode": "^1.1.18"
     },
     "dependencies": {
         "axios": "^0.18.0",
         "fs": "0.0.1-security",
-        "http": "0.0.0"
+        "http": "0.0.0",
+        "typescript-ioc": "^1.2.4"
     }
 }

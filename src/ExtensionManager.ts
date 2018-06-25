@@ -12,10 +12,11 @@ export default class ExtensionManager {
 		let dataProvider = new ApiTreeDataProvider();
 		let search = new Search();
 
-		vscode.window.registerTreeDataProvider(ExtensionConfig.UI5ExplorerViewId, dataProvider);
-
-		vscode.commands.registerCommand(ExtensionConfig.Commands.Render, manager.show, manager);
-		vscode.commands.registerCommand(ExtensionConfig.Commands.Search, search.run, search);
+		context.subscriptions.push(
+			vscode.window.registerTreeDataProvider(ExtensionConfig.UI5ExplorerViewId, dataProvider),
+			vscode.commands.registerCommand(ExtensionConfig.Commands.Render, manager.show, manager),
+			vscode.commands.registerCommand(ExtensionConfig.Commands.Search, search.run, search)
+		);
 	}
 
 	public deactivate() {

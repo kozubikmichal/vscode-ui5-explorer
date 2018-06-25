@@ -16,8 +16,8 @@ export default class ExtensionConfig {
 	static readonly UI5ExplorerViewId = "ui5ApiReference";
 
 	static readonly Commands = {
-		Render: "ui5explorer.Render",
-		Search: "ui5explorer.Search"
+		Render: "extension.ui5explorer.render",
+		Search: "extension.ui5explorer.search"
 	};
 
 	static readonly ConfigirationEntry: IConfigurationEntries = {
