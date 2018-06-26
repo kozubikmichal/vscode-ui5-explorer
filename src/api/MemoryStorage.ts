@@ -1,31 +1,52 @@
 import { IApiReferenceIndex, IApiReferenceLibrary } from "./IApiReference";
 import { Inject } from "typescript-ioc";
 import ILoader from "./ILoader";
+import ExtensionConfig, { UI5Framework } from "../utils/ExtensionConfig";
 
 interface ILibraries {
 	[key: string]: IApiReferenceLibrary;
 }
 
+interface IInnerCacheEntry {
+	libraries: ILibraries;
+	index: IApiReferenceIndex | undefined;
+}
+
+type InnerCache = {
+	[key in UI5Framework]?: IInnerCacheEntry
+};
+
 class MemoryStorage {
 	@Inject private loader!: ILoader;
 
-	private cachedLibraries: ILibraries = {};
-	private cachedIndex: IApiReferenceIndex | undefined;
+	private _cache: InnerCache = {};
 
-	public async getApiIndex(): Promise<IApiReferenceIndex> {
-		if (!this.cachedIndex) {
-			this.cachedIndex = await this.loader.fetchApiIndex();
+	private get Cache(): IInnerCacheEntry {
+		let framework = ExtensionConfig.getUI5Framework();
+		if (!this._cache[framework]) {
+			this._cache[framework] = {
+				libraries: {},
+				index: undefined
+			};
 		}
 
-		return this.cachedIndex;
+		return this._cache[framework] as IInnerCacheEntry;
+	}
+
+	public async getApiIndex(): Promise<IApiReferenceIndex> {
+		if (!this.Cache.index) {
+			this.Cache.index = await this.loader.fetchApiIndex();
+		}
+
+		return this.Cache.index;
 	}
 
 	public async getLibrary(id: string): Promise<IApiReferenceLibrary> {
-		if (!this.cachedLibraries[id]) {
-			this.cachedLibraries[id] = await this.loader.fetchLibrary(id);
+		if (!this.Cache.libraries[id]) {
+			this.Cache.libraries[id] = await this.loader.fetchLibrary(id);
 		}
 
-		return this.cachedLibraries[id];
+		return this.Cache.libraries[id];
 	}
 }
 
