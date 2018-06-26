@@ -47,7 +47,7 @@ export default class PanelsManager {
 		let panel = vscode.window.createWebviewPanel(
 			id,
 			title,
-			vscode.ViewColumn.One,
+			vscode.ViewColumn.Two,
 			{
 				enableCommandUris: true,
 				enableScripts: true,
