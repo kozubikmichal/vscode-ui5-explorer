@@ -3,7 +3,7 @@
     "displayName": "UI5 Explorer",
     "description": "UI5 Api Reference Explorer",
     "icon": "media/extension_icon.png",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "michalkozubik",
     "repository": {
         "type": "git",
@@ -18,7 +18,8 @@
         "vscode": "^1.24.0"
     },
     "categories": [
-        "Programming Languages", "Other"
+        "Programming Languages",
+        "Other"
     ],
     "activationEvents": [
         "onView:ui5ApiReference",
@@ -26,44 +27,54 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.ui5explorer.search",
-            "title": "Search",
-            "category": "UI5 Explorer",
-            "icon": "media/icon-search.svg"
-        }],
+        "commands": [
+            {
+                "command": "extension.ui5explorer.search",
+                "title": "Search",
+                "category": "UI5 Explorer",
+                "icon": "media/icon-search.svg"
+            }
+        ],
         "viewsContainers": {
-            "activitybar": [{
-                "id": "ui5-explorer",
-                "title": "UI5",
-                "icon": "media/ui5.png"
-            }]
+            "activitybar": [
+                {
+                    "id": "ui5-explorer",
+                    "title": "UI5",
+                    "icon": "media/ui5.png"
+                }
+            ]
         },
         "views": {
-            "ui5-explorer": [{
-                "id": "ui5ApiReference",
-                "name": "Api Reference"
-            }]
+            "ui5-explorer": [
+                {
+                    "id": "ui5ApiReference",
+                    "name": "Api Reference"
+                }
+            ]
         },
         "menus": {
-            "view/title": [{
-                "command": "extension.ui5explorer.search",
-                "when": "view == ui5ApiReference",
-                "group": "navigation"
-            }]
+            "view/title": [
+                {
+                    "command": "extension.ui5explorer.search",
+                    "when": "view == ui5ApiReference",
+                    "group": "navigation"
+                }
+            ]
         },
-        "configuration": [{
-            "title": "UI5 Explorer",
-            "properties": {
-                "ui5explorer.framework": {
-                    "enum": [
-                        "OpenUI5",
-                        "SAPUI5"
-                    ],
-                    "default": "OpenUI5"
+        "configuration": [
+            {
+                "title": "UI5 Explorer",
+                "properties": {
+                    "ui5explorer.framework": {
+                        "enum": [
+                            "OpenUI5",
+                            "SAPUI5"
+                        ],
+                        "default": "OpenUI5"
+                    }
                 }
             }
-        }]
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
