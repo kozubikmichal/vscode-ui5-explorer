@@ -1,18 +1,24 @@
 {
     "name": "ui5-explorer",
-    "displayName": "ui5-explorer",
+    "displayName": "UI5 Explorer",
     "description": "UI5 Api Reference Explorer",
+    "icon": "media/extension_icon.png",
     "version": "0.0.1",
     "publisher": "michalkozubik",
     "repository": {
         "type": "git",
         "url": "https://github.com/kozubikmichal/vscode-ui5-explorer"
     },
+    "bugs": {
+        "url": "https://github.com/kozubikmichal/vscode-ui5-explorer/issues",
+        "email": "kozubik.michal@gmail.com"
+    },
+    "homepage": "https://github.com/kozubikmichal/vscode-ui5-explorer",
     "engines": {
         "vscode": "^1.24.0"
     },
     "categories": [
-        "Other"
+        "Programming Languages", "Other"
     ],
     "activationEvents": [
         "onView:ui5ApiReference",

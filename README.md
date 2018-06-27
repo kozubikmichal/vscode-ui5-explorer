@@ -71,6 +71,6 @@ First beta version
 
 ## FAQ
 
-Feel free to open a new issue here on github if you find something not working or if you have some feature request.
+Feel free to open a new issue github if you find something not working or if you have some feature request.
 
 **Enjoy!**
