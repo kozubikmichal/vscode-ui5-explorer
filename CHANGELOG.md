@@ -1,9 +1,8 @@
 # Change Log
-All notable changes to the "ui5-explorer" extension will be documented in this file.
+All notable changes to the **UI5 Explorer** extension will be documented here.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+## 0.1.0 - 2018-06-27
+- Marketplace adjustment (icon, description, links...)
 
 ## 0.0.1 - 2018-06-27
 - Initial release
