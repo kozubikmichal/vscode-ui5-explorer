@@ -82,6 +82,7 @@ export interface IApiReferenceUI5Metadata {
 	properties: IApiReferenceUI5MetadataProperty[];
 	aggregations: IApiReferenceUI5MetadataAggregation[];
 	associations: IApiReferenceUI5MetadataAssociation[];
+	defaultAggregation: string;
 	designtime: string;
 }
 
@@ -178,7 +179,8 @@ export interface IApiReferenceSymbolMethod {
 		description: string;
 		types: {
 			value: string;
-			href: string;
+			href?: string;
+			linkEnabled?: boolean
 		}[];
 		defaultValue: string;
 	}[];

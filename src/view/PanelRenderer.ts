@@ -280,7 +280,10 @@ export default class PanelRenderer extends IPanelRenderer {
 						${event.parameters.map(param => `
 							<tr>
 								<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-								<td>${param.type}</td>
+								<td>${param.type ? (param.linkEnabled
+							? `<a href="#/api/${param.type}">${param.type}</a>`
+							: param.type) : ""}
+								</td>
 								<td>${param.description}</td>
 							</td>
 						`).join("")}
@@ -320,7 +323,11 @@ export default class PanelRenderer extends IPanelRenderer {
 						${method.parameters.map(param => `
 							<tr>
 								<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-								<td>${param.types.map(t => t.value).join(" | ")}</td>
+								<td>${param.types.map(t => `${t.linkEnabled
+							? `<a href="#/api/${t.value}">${t.value}</a>`
+							: t.value
+							}`).join(" | ")}
+								</td>
 								<td>${param.defaultValue}</td>
 								<td>${param.description}</td>
 							</tr>
