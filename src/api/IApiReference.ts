@@ -152,6 +152,12 @@ export interface IApiReferenceSymbolEvent {
 		phoneName?: string;
 	}[];
 	description: string;
+	deprecated: {
+		since: string;
+		text: string;
+	};
+	deprecatedText: string;
+	code: string;
 }
 
 export interface IApiReferenceSymbolMethod {
