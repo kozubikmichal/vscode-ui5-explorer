@@ -211,7 +211,10 @@ export default class PanelRenderer extends IPanelRenderer {
 					<tr>
 						<td><strong>${aggregation.name}</strong></td>
 						<td>${aggregation.cardinality}</td>
-						<td>${aggregation.type}</td>
+						<td>${aggregation.type ? (aggregation.linkEnabled
+					? `<a href="#/api/${aggregation.type}">${aggregation.type}</a>`
+					: aggregation.type) : ""}
+						</td>
 						<td>${aggregation.description}</td>
 					</tr>
 				`).join("")
@@ -241,7 +244,10 @@ export default class PanelRenderer extends IPanelRenderer {
 					<tr>
 						<td><strong>${association.name}</strong></td>
 						<td>${association.cardinality}</td>
-						<td>${association.type}</td>
+						<td>${association.type ? (association.linkEnabled
+					? `<a href="#/api/${association.type}">${association.type}</a>`
+					: association.type) : ""}
+						</td>
 						<td>${association.description}</td>
 					</tr>
 				`).join("")
