@@ -127,7 +127,7 @@ export default class PanelRenderer extends IPanelRenderer {
 				${constructor.parameters.map(param => `
 					<tr>
 						<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-						<td>${param.types.map(t => t.name).join(" | ")}</td>
+						<td>${param.types.map(t => `${t.linkEnabled ? `<a href="#/api/${t.name}">${t.name}</a>` : t.name}`).join(" | ")}</td>
 						<td>${param.defaultValue || ""}</td>
 						<td>${param.description}</td>
 					</td>
