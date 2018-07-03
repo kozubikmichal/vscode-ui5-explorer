@@ -180,7 +180,7 @@ export default class PanelRenderer extends IPanelRenderer {
 				${properties.map(prop => `
 					<tr>
 						<td><strong>${prop.name}</strong></td>
-						<td>${prop.type || ""}</td>
+						<td>${prop.type ? (prop.linkEnabled ? `<a href="#/api/${prop.type}">${prop.type}</a>` : prop.type) : ""}</td>
 						<td>${prop.defaultValue || ""}</td>
 						<td>${prop.description} Visibility: ${prop.visibility}</td>
 					</tr>
