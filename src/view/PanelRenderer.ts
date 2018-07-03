@@ -57,7 +57,6 @@ export default class PanelRenderer extends IPanelRenderer {
 					${this.buildAssociations(symbol, metadata)}
 					${this.buildEvents(symbol, metadata)}
 					${this.buildMethods(symbol, metadata)}
-
 			</body>
 		</html>
 		`;
@@ -127,7 +126,7 @@ export default class PanelRenderer extends IPanelRenderer {
 				</tr>
 				${constructor.parameters.map(param => `
 					<tr>
-						<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional && "?"}</strong></td>
+						<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
 						<td>${param.types.map(t => t.name).join(" | ")}</td>
 						<td>${param.defaultValue || ""}</td>
 						<td>${param.description}</td>
@@ -263,23 +262,26 @@ export default class PanelRenderer extends IPanelRenderer {
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
 				<h3 id="${event.name}">${event.name}</h3>
 
-				${event.description}
+				${event.description || ""}
 
-				<table>
-					<tr>
-						<th>Param</th>
-						<th>Type</th>
-						<th>Description</th>
-					</tr>
-					${event.parameters.map(param => `
+				${event.parameters ? `
+					<table>
 						<tr>
-							<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-							<td>${param.type}</td>
-							<td>${param.description}</td>
-						</td>
-					`).join("")}
+							<th>Param</th>
+							<th>Type</th>
+							<th>Description</th>
+						</tr>
+						${event.parameters.map(param => `
+							<tr>
+								<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+								<td>${param.type}</td>
+								<td>${param.description}</td>
+							</td>
+						`).join("")}
 
-				</table>
+					</table>
+					` : ""
+				}
 				<br />
 			`).join("")
 			}
@@ -297,10 +299,11 @@ export default class PanelRenderer extends IPanelRenderer {
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
 				<h3 id="${method.name}">${method.name}</h3>
 
-				${method.description}
-				<code>${method.code}</code>
+				${method.description || ""}
+				<code>${method.code || ""}</code>
 
-				<table>
+				${method.parameters ? `
+					<table>
 					<tr>
 						<th>Param</th>
 						<th>Type</th>
@@ -308,19 +311,20 @@ export default class PanelRenderer extends IPanelRenderer {
 						<th>Description</th>
 					</tr>
 
-					${method.parameters && method.parameters.map(param => `
-						<tr>
-							<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-							<td>${param.types.map(t => t.value).join(" | ")}</td>
-							<td>${param.defaultValue}</td>
-							<td>${param.description}</td>
-						</tr>
-					`).join("")
-				}
-				</table>
-				<br />
+						${method.parameters.map(param => `
+							<tr>
+								<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+								<td>${param.types.map(t => t.value).join(" | ")}</td>
+								<td>${param.defaultValue}</td>
+								<td>${param.description}</td>
+							</tr>
+						`).join("")
+					}
+					</table>
+					<br />
+					`: ""}
 
-				${method.returnValue && `
+				${method.returnValue ? `
 					<table>
 						<tr>
 							<th>Returns</th>
@@ -333,7 +337,7 @@ export default class PanelRenderer extends IPanelRenderer {
 						</tr>
 					</table>
 					<br />
-				`}
+				` : ""}
 
 				`).join("")
 			}
