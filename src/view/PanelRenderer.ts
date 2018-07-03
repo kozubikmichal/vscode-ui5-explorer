@@ -209,7 +209,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 				${aggregations.filter(a => a.visibility !== SymbolVisibility.Hidden).map(aggregation => `
 					<tr>
-						<td><strong>${aggregation.name}</strong></td>
+						<td><strong>${aggregation.name}</strong>${metadata.defaultAggregation === aggregation.name ? " (default)" : ""}</td>
 						<td>${aggregation.cardinality}</td>
 						<td>${aggregation.type ? (aggregation.linkEnabled
 					? `<a href="#/api/${aggregation.type}">${aggregation.type}</a>`
