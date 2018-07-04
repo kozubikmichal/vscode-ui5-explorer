@@ -11,6 +11,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 	public renderDefault(panel: vscode.WebviewPanel) {
 		panel.webview.html = `
+		<!DOCTYPE html>
 		<html>
 			<head></head>
 			<body>
@@ -24,8 +25,11 @@ export default class PanelRenderer extends IPanelRenderer {
 		let metadata = this.getUI5Metadata(symbol);
 
 		panel.webview.html = `
-		<html>
+		<!DOCTYPE html>
+		<html lang="en">
 			<head>
+				<title>${symbol.name}</title>
+
 				${this.buildCSS()}
 			</head>
 			<body>
@@ -159,18 +163,18 @@ export default class PanelRenderer extends IPanelRenderer {
 
 			<div class="grid-container">
 				<div class="grid-item">
-					<strong>Control Sample:</strong> ${sampleLink}<br />
-					<strong>Documentation:</strong> ${docuLink} <br />
-					<strong>UX Guidelines:</strong> <a href="${symbol.uxGuidelinesLink || ''}">${symbol.uxGuidelinesLinkText || ''}</a> <br />
+					<strong>Control Sample:</strong> ${sampleLink}<br>
+					<strong>Documentation:</strong> ${docuLink} <br>
+					<strong>UX Guidelines:</strong> <a href="${symbol.uxGuidelinesLink || ''}">${symbol.uxGuidelinesLinkText || ''}</a> <br>
 				</div>
 				<div class="grid-item">
-					<strong>Extends:</strong> ${extendsLink}<br />
-					<strong>Visibility:</strong> ${symbol.visibility || ""}<br />
-					<strong>Module:</strong> ${symbol.module || ""}<br />
+					<strong>Extends:</strong> ${extendsLink}<br>
+					<strong>Visibility:</strong> ${symbol.visibility || ""}<br>
+					<strong>Module:</strong> ${symbol.module || ""}<br>
 				</div>
 				<div class="grid-item">
-					<strong>Available since:</strong> ${symbol.since || ""}<br />
-					<strong>Component:</strong> ${symbol.component || ""}<br />
+					<strong>Available since:</strong> ${symbol.since || ""}<br>
+					<strong>Component:</strong> ${symbol.component || ""}<br>
 				</div>
 			</div>
 		`;
@@ -207,11 +211,11 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td>${param.types.map(t => `${t.linkEnabled ? `<a href="#/api/${t.name}">${t.name}</a>` : t.name}`).join(" | ")}</td>
 						<td>${param.defaultValue || ""}</td>
 						<td>${param.description}</td>
-					</td>
+					</tr>
 				`).join("")}
 
 			</table>
-			<br />
+			<br>
 		`;
 	}
 
@@ -232,8 +236,8 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td>${prop.description} Visibility: ${prop.visibility}</td>
 					</tr>
 				`).join("")}
-			<table>
-			<br />
+			</table>
+			<br>
 		` : "";
 	}
 
@@ -262,8 +266,8 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td>${prop.description} Visibility: ${prop.visibility}</td>
 					</tr>
 				`).join("")}
-			<table>
-			<br />
+			</table>
+			<br>
 		` : "";
 	}
 
@@ -296,8 +300,8 @@ export default class PanelRenderer extends IPanelRenderer {
 					</tr>
 				`).join("")
 			}
-			<table>
-			<br />
+			</table>
+			<br>
 	` : "";
 	}
 
@@ -329,8 +333,8 @@ export default class PanelRenderer extends IPanelRenderer {
 					</tr>
 				`).join("")
 			}
-			<table>
-			<br />
+			</table>
+			<br>
 	` : "";
 	}
 
@@ -364,13 +368,13 @@ export default class PanelRenderer extends IPanelRenderer {
 							: param.type) : ""}
 									</td>
 									<td>${param.description}</td>
-								</td>
+								</tr>
 							`).join("")}
 
 						</table>
 						` : ""
 				}
-					<br />
+					<br>
 				</div>
 			`).join("")
 			}
@@ -415,7 +419,7 @@ export default class PanelRenderer extends IPanelRenderer {
 							`).join("")
 					}
 						</table>
-						<br />
+						<br>
 						`: ""}
 
 					${method.returnValue ? `
@@ -430,7 +434,7 @@ export default class PanelRenderer extends IPanelRenderer {
 								<td>${method.returnValue.description}</td>
 							</tr>
 						</table>
-						<br />
+						<br>
 					` : ""}
 				</div>
 			`).join("")}
@@ -449,7 +453,7 @@ export default class PanelRenderer extends IPanelRenderer {
 			.replace(ownRegex, `href="#$2"`)
 			.replace(
 				/href="#\/api\/([\w\.]*)(\/[\w\.]*)*"/g,
-				`href=\"${encodeURI(`command:${ExtensionConfig.Commands.Render}?${JSON.stringify("$1")}`)}\" title="$1"`
+				`href="${encodeURI(`command:${ExtensionConfig.Commands.Render}?${JSON.stringify("$1")}`)}" title="$1"`
 			)
 			.replace(
 				/href="#\/topic\/([^"]+)"/g,
