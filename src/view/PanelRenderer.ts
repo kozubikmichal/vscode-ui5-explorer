@@ -30,6 +30,9 @@ export default class PanelRenderer extends IPanelRenderer {
 			</head>
 			<body>
 					${this.buildHeader(symbol)}
+
+					<div id="menu"></div>
+
 					${this.buildOverview(symbol)}
 					${this.buildConstructor(symbol)}
 					${this.buildFields(symbol)}
@@ -118,6 +121,18 @@ export default class PanelRenderer extends IPanelRenderer {
 				});
 			}
 			</script>
+
+			<script>
+				var menu = document.getElementById("menu");
+				var sections = document.getElementsByClassName("section");
+				var i, items = [];
+
+				for (var i = 0; i < sections.length; ++i) {
+					items.push("<a href='#" + sections[i].id + "'>" + sections[i].textContent + "</a>")
+				}
+
+				menu.innerHTML = items.join(" | ");
+			</script>
 		`;
 	}
 
@@ -158,7 +173,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 	private buildOverview(symbol: IApiReferenceLibrarySymbol): string {
 		return symbol.description ? `
-			<h2 id="overview">Overview</h2>
+			<h2 id="overview" class="section">Overview</h2>
 			${symbol.description}
 		` : "";
 	}
@@ -171,7 +186,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		}
 
 		return `
-			<h2 id="constructor">Constructor</h2>
+			<h2 id="constructor" class="section">Constructor</h2>
 			${constructor.description}
 			<code>${constructor.codeExample}</code>
 			<table>
@@ -199,7 +214,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { properties } = symbol;
 
 		return properties ? `
-			<h2 id="fields">Fields</h2>
+			<h2 id="fields" class="section">Fields</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -225,7 +240,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { properties } = metadata;
 
 		return properties ? `
-			<h2 id="properties">Properties</h2>
+			<h2 id="properties" class="section">Properties</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -255,7 +270,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { aggregations } = metadata;
 
 		return aggregations ? `
-			<h2 id="aggregations">Aggregations</h2>
+			<h2 id="aggregations" class="section">Aggregations</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -288,7 +303,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 		let { associations } = metadata;
 		return associations ? `
-			<h2 id="associations">Associations</h2>
+			<h2 id="associations" class="section">Associations</h2>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -318,7 +333,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { events } = symbol;
 
 		return events ? `
-			<h2 id="events">Events</h2>
+			<h2 id="events" class="section">Events</h2>
 
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
 				<h3 id="${event.name}" class="accordion">${event.name}</h3>
@@ -358,7 +373,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		let { methods } = symbol;
 
 		return methods ? `
-			<h2 id="methods">Methods</h2>
+			<h2 id="methods" class="section">Methods</h2>
 
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
 				<h3 id="${method.name}" class="accordion">${method.name}</h3>
