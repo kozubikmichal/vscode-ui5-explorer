@@ -33,6 +33,8 @@ export default class PanelRenderer extends IPanelRenderer {
 				${this.buildCSS()}
 			</head>
 			<body>
+					<button onclick="topFunction()" id="topNavigator" title="Go to top">&#x25B2;</button>
+
 					${this.buildHeader(symbol)}
 
 					<div id="menu"></div>
@@ -105,6 +107,24 @@ export default class PanelRenderer extends IPanelRenderer {
 					overflow: hidden;
 					transition: max-height 0.2s ease-out;
 				}
+				#topNavigator {
+					display: none;
+					position: fixed;
+					bottom: 20px;
+					right: 30px;
+					z-index: 99;
+					font-size: 14px;
+					border: none;
+					outline: none;
+					background-color: #4286f4;
+					color: white;
+					cursor: pointer;
+					padding: 15px;
+					border-radius: 4px;
+				}
+				#topNavigator:hover {
+					background-color: #555;
+				}
 			</style>
 		`;
 	}
@@ -142,6 +162,27 @@ export default class PanelRenderer extends IPanelRenderer {
 
 				menu.innerHTML = items.join(" | ");
 			</script>
+
+			<script>
+				// When the user scrolls down 20px from the top of the document, show the button
+				var topNavigator = document.getElementById("topNavigator");
+
+				function scrollHandler() {
+					if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+						topNavigator.style.display = "block";
+					} else {
+						topNavigator.style.display = "none";
+					}
+				}
+
+				// When the user clicks on the button, scroll to the top of the document
+				function topFunction() {
+					document.body.scrollTop = 0;
+					document.documentElement.scrollTop = 0;
+				}
+
+				window.onscroll = scrollHandler
+			</script>
 		`;
 	}
 
@@ -159,7 +200,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		`: "";
 
 		return `
-			<h1>${symbol.title}</h1>
+			<h1 id="top">${symbol.title}</h1>
 
 			<div class="grid-container">
 				<div class="grid-item">
