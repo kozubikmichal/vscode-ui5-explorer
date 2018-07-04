@@ -70,24 +70,29 @@ export default class PanelRenderer extends IPanelRenderer {
 				table {
 					border-collapse: collapse;
 				}
+				h3 {
+					font-weight: normal;
+				}
 				.accordion {
 					cursor: pointer;
 					width: 100%;
 					border: none;
 					outline: none;
-					font-weight: normal;
 				}
-				.active, .accordion:hover {
+				.accordion:hover .accordion-title, .active .accordion-title {
 					font-weight: bold;
 				}
-				.accordion:after {
+				.accordion-description {
+					font-weight: normal;
+				}
+				.accordion-title:after {
 					content: '\\002B';
 					color: #777;
 					font-weight: bold;
 					float: right;
 					margin-left: 5px;
 				}
-				.active:after {
+				.active .accordion-title:after {
 					content: "\\2212";
 				}
 				.panel {
@@ -336,7 +341,10 @@ export default class PanelRenderer extends IPanelRenderer {
 			<h2 id="events" class="section">Events</h2>
 
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
-				<h3 id="${event.name}" class="accordion">${event.name}</h3>
+				<div class="accordion">
+					<h3 id="${event.name}" class="accordion-title">${event.name}</h3>
+					<code class="accordion-description">${event.code || ""}</code>
+				</div>
 
 				<div class="panel">
 					${event.description || ""}
@@ -376,11 +384,13 @@ export default class PanelRenderer extends IPanelRenderer {
 			<h2 id="methods" class="section">Methods</h2>
 
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
-				<h3 id="${method.name}" class="accordion">${method.name}</h3>
+				<div class="accordion">
+					<h3 id="${method.name}" class="accordion-title">${method.name}</h3>
+					<code class="accordion-description">${method.code || ""}</code>
+				</div>
 
 				<div class="panel">
 					${method.description || ""}
-					<code>${method.code || ""}</code>
 
 					${method.parameters ? `
 						<table>
