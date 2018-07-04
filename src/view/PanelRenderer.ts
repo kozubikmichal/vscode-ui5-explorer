@@ -26,8 +26,29 @@ export default class PanelRenderer extends IPanelRenderer {
 		panel.webview.html = `
 		<html>
 			<head>
-
+				${this.buildCSS()}
 			</head>
+			<body>
+					${this.buildHeader(symbol)}
+					${this.buildOverview(symbol)}
+					${this.buildConstructor(symbol)}
+					${this.buildFields(symbol)}
+					${this.buildProperties(symbol, metadata)}
+					${this.buildAggregations(symbol, metadata)}
+					${this.buildAssociations(symbol, metadata)}
+					${this.buildEvents(symbol, metadata)}
+					${this.buildMethods(symbol, metadata)}
+
+					${this.buildJS()}
+			</body>
+		</html>
+		`;
+
+		panel.webview.html = this.adaptLinks(symbol, panel.webview.html);
+	}
+
+	private buildCSS(): string {
+		return `
 			<style>
 				.grid-container {
 					display: grid;
@@ -46,22 +67,58 @@ export default class PanelRenderer extends IPanelRenderer {
 				table {
 					border-collapse: collapse;
 				}
+				.accordion {
+					cursor: pointer;
+					width: 100%;
+					border: none;
+					outline: none;
+					font-weight: normal;
+				}
+				.active, .accordion:hover {
+					font-weight: bold;
+				}
+				.accordion:after {
+					content: '\\002B';
+					color: #777;
+					font-weight: bold;
+					float: right;
+					margin-left: 5px;
+				}
+				.active:after {
+					content: "\\2212";
+				}
+				.panel {
+					padding: 0 10px;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.2s ease-out;
+				}
 			</style>
-			<body>
-					${this.buildHeader(symbol)}
-					${this.buildOverview(symbol)}
-					${this.buildConstructor(symbol)}
-					${this.buildFields(symbol)}
-					${this.buildProperties(symbol, metadata)}
-					${this.buildAggregations(symbol, metadata)}
-					${this.buildAssociations(symbol, metadata)}
-					${this.buildEvents(symbol, metadata)}
-					${this.buildMethods(symbol, metadata)}
-			</body>
-		</html>
 		`;
+	}
 
-		panel.webview.html = this.adaptLinks(symbol, panel.webview.html);
+	private buildJS(): string {
+		return `
+			<script>
+			var acc = document.getElementsByClassName("accordion");
+			var i;
+
+			for (i = 0; i < acc.length; i++) {
+				acc[i].addEventListener("click", function() {
+					this.classList.toggle("active");
+
+					/* Toggle between hiding and showing the active panel */
+					var panel = this.nextElementSibling;
+
+					if (panel.style.maxHeight){
+						panel.style.maxHeight = null;
+					  } else {
+						panel.style.maxHeight = panel.scrollHeight + "px";
+					  }
+				});
+			}
+			</script>
+		`;
 	}
 
 	private buildHeader(symbol: IApiReferenceLibrarySymbol): string {
@@ -260,38 +317,38 @@ export default class PanelRenderer extends IPanelRenderer {
 	private buildEvents(symbol: IApiReferenceLibrarySymbol, metadata?: IApiReferenceUI5Metadata): string {
 		let { events } = symbol;
 
-		// TODO: expandable panel with detailed info
-
 		return events ? `
 			<h2 id="events">Events</h2>
 
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
-				<h3 id="${event.name}">${event.name}</h3>
+				<h3 id="${event.name}" class="accordion">${event.name}</h3>
 
-				${event.description || ""}
+				<div class="panel">
+					${event.description || ""}
 
-				${event.parameters ? `
-					<table>
-						<tr>
-							<th>Param</th>
-							<th>Type</th>
-							<th>Description</th>
-						</tr>
-						${event.parameters.map(param => `
+					${event.parameters ? `
+						<table>
 							<tr>
-								<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-								<td>${param.type ? (param.linkEnabled
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+							${event.parameters.map(param => `
+								<tr>
+									<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+									<td>${param.type ? (param.linkEnabled
 							? `<a href="#/api/${param.type}">${param.type}</a>`
 							: param.type) : ""}
+									</td>
+									<td>${param.description}</td>
 								</td>
-								<td>${param.description}</td>
-							</td>
-						`).join("")}
+							`).join("")}
 
-					</table>
-					` : ""
+						</table>
+						` : ""
 				}
-				<br />
+					<br />
+				</div>
 			`).join("")
 			}
 		` : "";
@@ -300,60 +357,58 @@ export default class PanelRenderer extends IPanelRenderer {
 	private buildMethods(symbol: IApiReferenceLibrarySymbol, metadata?: IApiReferenceUI5Metadata): string {
 		let { methods } = symbol;
 
-		// TODO: expandable panel with detailed info
-
 		return methods ? `
 			<h2 id="methods">Methods</h2>
 
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
-				<h3 id="${method.name}">${method.name}</h3>
+				<h3 id="${method.name}" class="accordion">${method.name}</h3>
 
-				${method.description || ""}
-				<code>${method.code || ""}</code>
+				<div class="panel">
+					${method.description || ""}
+					<code>${method.code || ""}</code>
 
-				${method.parameters ? `
-					<table>
-					<tr>
-						<th>Param</th>
-						<th>Type</th>
-						<th>Default Value</th>
-						<th>Description</th>
-					</tr>
-
-						${method.parameters.map(param => `
-							<tr>
-								<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-								<td>${param.types.map(t => `${t.linkEnabled
-							? `<a href="#/api/${t.value}">${t.value}</a>`
-							: t.value
-							}`).join(" | ")}
-								</td>
-								<td>${param.defaultValue}</td>
-								<td>${param.description}</td>
-							</tr>
-						`).join("")
-					}
-					</table>
-					<br />
-					`: ""}
-
-				${method.returnValue ? `
-					<table>
+					${method.parameters ? `
+						<table>
 						<tr>
-							<th>Returns</th>
+							<th>Param</th>
+							<th>Type</th>
+							<th>Default Value</th>
 							<th>Description</th>
 						</tr>
 
-						<tr>
-							<td>${method.returnValue.type}</td>
-							<td>${method.returnValue.description}</td>
-						</tr>
-					</table>
-					<br />
-				` : ""}
+							${method.parameters.map(param => `
+								<tr>
+									<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+									<td>${param.types.map(t => `${t.linkEnabled
+							? `<a href="#/api/${t.value}">${t.value}</a>`
+							: t.value
+							}`).join(" | ")}
+									</td>
+									<td>${param.defaultValue}</td>
+									<td>${param.description}</td>
+								</tr>
+							`).join("")
+					}
+						</table>
+						<br />
+						`: ""}
 
-				`).join("")
-			}
+					${method.returnValue ? `
+						<table>
+							<tr>
+								<th>Returns</th>
+								<th>Description</th>
+							</tr>
+
+							<tr>
+								<td>${method.returnValue.type}</td>
+								<td>${method.returnValue.description}</td>
+							</tr>
+						</table>
+						<br />
+					` : ""}
+				</div>
+			`).join("")}
 		` : "";
 	}
 
