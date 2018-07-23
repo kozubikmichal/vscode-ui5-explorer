@@ -19,10 +19,10 @@ export default class ApiConfig {
 	@Inject private extensionConfig!: ExtensionConfig;
 
 	private static readonly Endpoints: IUrlConfig = {
-		apiIndex: "/docs/api/api-index.json",
-		libraryRoot: "/test-resources/",
-		sampleRoot: "/#/entity/",
-		documentationRoot: "/#/topic/"
+		apiIndex: "docs/api/api-index.json",
+		libraryRoot: "test-resources/",
+		sampleRoot: "#/entity/",
+		documentationRoot: "#/topic/"
 	};
 
 	private static readonly sources: Sources = {
@@ -32,11 +32,10 @@ export default class ApiConfig {
 
 	public Endpoints: IUrlConfig;
 
-	constructor(code: typeof vscode) {
-		code.workspace.onDidChangeConfiguration(() => {
+	constructor() {
+		this.extensionConfig.onChange(() => {
 			this.Endpoints = this.build();
 		});
-
 		this.Endpoints = this.build();
 	}
 

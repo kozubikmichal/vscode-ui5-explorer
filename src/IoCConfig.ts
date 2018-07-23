@@ -33,7 +33,7 @@ export default class Configuration {
 
 		Container.bind(ApiConfig).provider({
 			get: () => {
-				return new ApiConfig(vscode);
+				return new ApiConfig();
 			}
 		}).scope(Scope.Singleton);
 	}

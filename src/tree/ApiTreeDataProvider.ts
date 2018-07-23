@@ -3,6 +3,7 @@ import ApiTreeItem from "./ApiTreeItem";
 import { SymbolKind, SymbolVisibility } from "../api/IApiReference";
 import { Inject } from "typescript-ioc";
 import IStorage from "../api/IStorage";
+import ExtensionConfig from "../utils/ExtensionConfig";
 
 interface IApiTree {
 	[key: string]: ApiTreeItem;
@@ -10,16 +11,26 @@ interface IApiTree {
 
 export default class ApiTreeDataProvider implements vscode.TreeDataProvider<ApiTreeItem> {
 	private tree!: IApiTree;
+	@Inject private extensionConfig!: ExtensionConfig;
 	@Inject private storage!: IStorage;
 
-	onDidChangeTreeData?: vscode.Event<ApiTreeItem | null | undefined> | undefined;
+	private _onDidChangeTreeData: vscode.EventEmitter<ApiTreeItem | undefined> = new vscode.EventEmitter<ApiTreeItem | undefined>();
+	readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
+
+	constructor() {
+		this.extensionConfig.onChange(() => this.refresh());
+	}
+
+	refresh(): void {
+		this._onDidChangeTreeData.fire();
+	}
 
 	getTreeItem(element: ApiTreeItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		return element.update();
 	}
 
 	async getChildren(element?: ApiTreeItem | undefined): Promise<ApiTreeItem[]> {
-		let tree = await this.parseTree();
+		let tree = await this.parseTree(element === undefined);
 
 		if (!element) {
 			return this.getRoots(tree);
@@ -39,8 +50,8 @@ export default class ApiTreeDataProvider implements vscode.TreeDataProvider<ApiT
 		return element.children.sort(this.sorter);
 	}
 
-	private async parseTree(): Promise<IApiTree> {
-		if (this.tree) {
+	private async parseTree(force: boolean): Promise<IApiTree> {
+		if (this.tree && !force) {
 			return this.tree;
 		}
 

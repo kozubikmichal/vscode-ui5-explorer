@@ -15,6 +15,9 @@ interface IConfigurationEntries {
 
 @Singleton
 export default class ExtensionConfig {
+	private _onChange = new vscode.EventEmitter<void>();
+	readonly onChange = this._onChange.event;
+
 	static readonly ExtensionId = "ui5explorer";
 	static readonly UI5ExplorerViewId = "ui5ApiReference";
 
@@ -25,7 +28,13 @@ export default class ExtensionConfig {
 
 	constructor(
 		private code: typeof vscode
-	) { }
+	) {
+		code.workspace.onDidChangeConfiguration(e => {
+			if (e.affectsConfiguration(ExtensionConfig.ExtensionId)) {
+				this._onChange.fire();
+			}
+		});
+	}
 
 	static readonly ConfigirationEntry: IConfigurationEntries = {
 		Framework: {

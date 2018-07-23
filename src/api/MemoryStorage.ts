@@ -1,54 +1,46 @@
 import { IApiReferenceIndex, IApiReferenceLibrary } from "./IApiReference";
 import { Inject } from "typescript-ioc";
 import ILoader from "./ILoader";
-import ExtensionConfig, { UI5Framework } from "../utils/ExtensionConfig";
-
-interface ILibraries {
-	[key: string]: IApiReferenceLibrary;
-}
-
-interface IInnerCacheEntry {
-	libraries: ILibraries;
-	index: IApiReferenceIndex | undefined;
-}
-
-type InnerCache = {
-	[key in UI5Framework]?: IInnerCacheEntry
-};
+import ExtensionConfig from "../utils/ExtensionConfig";
 
 class MemoryStorage {
 	@Inject private loader!: ILoader;
 	@Inject private extensionConfig!: ExtensionConfig;
 
-	private _cache: InnerCache = {};
+	private static IndexID = "index";
 
-	private get Cache(): IInnerCacheEntry {
-		let framework = this.extensionConfig.getUI5Framework();
-
-		if (!this._cache[framework]) {
-			this._cache[framework] = {
-				libraries: {},
-				index: undefined
-			};
-		}
-
-		return this._cache[framework] as IInnerCacheEntry;
-	}
+	private cache: Map<string, any> = new Map<string, any>();
 
 	public async getApiIndex(): Promise<IApiReferenceIndex> {
-		if (!this.Cache.index) {
-			this.Cache.index = await this.loader.fetchApiIndex();
-		}
-
-		return this.Cache.index;
+		return this.getWithCache<IApiReferenceIndex>(
+			MemoryStorage.IndexID,
+			() => this.loader.fetchApiIndex()
+		);
 	}
 
 	public async getLibrary(id: string): Promise<IApiReferenceLibrary> {
-		if (!this.Cache.libraries[id]) {
-			this.Cache.libraries[id] = await this.loader.fetchLibrary(id);
+		return this.getWithCache<IApiReferenceLibrary>(
+			id,
+			() => this.loader.fetchLibrary(id)
+		);
+	}
+
+	private async getWithCache<T>(id: string, getter: () => Promise<T>): Promise<T> {
+		let key = this.createKey(id);
+
+		if (!this.cache.has(key)) {
+			this.cache.set(key, await getter());
 		}
 
-		return this.Cache.libraries[id];
+		return this.cache.get(key) as T;
+	}
+
+	private createKey(id: string): string {
+		return [
+			this.extensionConfig.getUI5Framework(),
+			this.extensionConfig.getUI5Version(),
+			id
+		].join("|");
 	}
 }
 
