@@ -18,11 +18,13 @@ type InnerCache = {
 
 class MemoryStorage {
 	@Inject private loader!: ILoader;
+	@Inject private extensionConfig!: ExtensionConfig;
 
 	private _cache: InnerCache = {};
 
 	private get Cache(): IInnerCacheEntry {
-		let framework = ExtensionConfig.getUI5Framework();
+		let framework = this.extensionConfig.getUI5Framework();
+
 		if (!this._cache[framework]) {
 			this._cache[framework] = {
 				libraries: {},

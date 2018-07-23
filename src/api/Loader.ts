@@ -2,15 +2,18 @@ import { IApiReferenceIndex, IApiReferenceLibrary } from "./IApiReference";
 import ILoader from "./ILoader";
 import { Provides, Inject } from "typescript-ioc";
 import IRequest from "../utils/IRequest";
-import Config, { IUrlConfig } from "./Config";
+import ApiConfig, { IUrlConfig } from "./ApiConfig";
+
 import * as vscode from 'vscode';
+
 
 @Provides(ILoader)
 class Loader extends ILoader {
+	@Inject private apiConfig!: ApiConfig;
 	@Inject private request!: IRequest;
 
 	private get UrlConfig(): IUrlConfig {
-		return Config.Url;
+		return this.apiConfig.Endpoints;
 	}
 
 	public fetchApiIndex(): Promise<IApiReferenceIndex> {
@@ -41,7 +44,7 @@ class Loader extends ILoader {
 		return [
 			this.UrlConfig.libraryRoot,
 			id.replace(/\./g, "/"),
-			"designtime/apiref/api.json"
+			"designtime/api.json"
 		].join("/");
 	}
 }

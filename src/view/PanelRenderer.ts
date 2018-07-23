@@ -1,12 +1,15 @@
 import * as vscode from "vscode";
 import { IApiReferenceLibrarySymbol, IApiReferenceUI5Metadata, SymbolVisibility } from "../api/IApiReference";
 import IPanelRenderer from "./IPanelRenderer";
-import Config, { IUrlConfig } from "../api/Config";
+import ApiConfig, { IUrlConfig } from "../api/ApiConfig";
 import ExtensionConfig from "../utils/ExtensionConfig";
+import { Inject } from "../../node_modules/typescript-ioc";
 
 export default class PanelRenderer extends IPanelRenderer {
+	@Inject private apiConfig!: ApiConfig;
+
 	private get UrlConfig(): IUrlConfig {
-		return Config.Url;
+		return this.apiConfig.Endpoints;
 	}
 
 	public renderDefault(panel: vscode.WebviewPanel) {

@@ -9,6 +9,10 @@ import { MemoryStorage } from "./api/MemoryStorage";
 import IPanelRenderer from "./view/IPanelRenderer";
 import PanelRenderer from "./view/PanelRenderer";
 
+import * as vscode from 'vscode';
+import ExtensionConfig from "./utils/ExtensionConfig";
+import ApiConfig from "./api/ApiConfig";
+
 export default class Configuration {
 	static configure() {
 
@@ -20,5 +24,17 @@ export default class Configuration {
 		Container.bind(IRequest).to(Request);
 		Container.bind(IStorage).to(MemoryStorage).scope(Scope.Singleton);
 		Container.bind(IPanelRenderer).to(PanelRenderer);
+
+		Container.bind(ExtensionConfig).provider({
+			get: () => {
+				return new ExtensionConfig(vscode);
+			}
+		}).scope(Scope.Singleton);
+
+		Container.bind(ApiConfig).provider({
+			get: () => {
+				return new ApiConfig(vscode);
+			}
+		}).scope(Scope.Singleton);
 	}
 }

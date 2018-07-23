@@ -71,6 +71,10 @@
                             "SAPUI5"
                         ],
                         "default": "OpenUI5"
+                    },
+                    "ui5explorer.version": {
+                        "type": "string",
+                        "default": ""
                     }
                 }
             }
