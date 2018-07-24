@@ -34,6 +34,12 @@ export default class Storage extends IStorage {
 		return response.libraries[id];
 	}
 
+	public async clear(): Promise<any> {
+		return Promise.all(
+			this.components.map(c => c.clear())
+		);
+	}
+
 	private async getResponse(getter: ResponseGetter): Promise<IStorageResponse | undefined> {
 		let response: IStorageResponse | undefined;
 		let i;

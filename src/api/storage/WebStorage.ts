@@ -54,9 +54,8 @@ export default class WebStorage extends IStorageComponent {
 		});
 	}
 
-	public async storeResponse(): Promise<void> {
-		return;
-	}
+	public async storeResponse(): Promise<void> { }
+	public async clear(): Promise<any> { }
 
 	private createLibraryUrl(id: string): string {
 		return [

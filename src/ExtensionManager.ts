@@ -15,7 +15,11 @@ export default class ExtensionManager {
 		context.subscriptions.push(
 			vscode.window.registerTreeDataProvider(ExtensionConfig.UI5ExplorerViewId, dataProvider),
 			vscode.commands.registerCommand(ExtensionConfig.Commands.Render, manager.show, manager),
-			vscode.commands.registerCommand(ExtensionConfig.Commands.Search, search.run, search)
+			vscode.commands.registerCommand(ExtensionConfig.Commands.Search, search.run, search),
+			vscode.commands.registerCommand(ExtensionConfig.Commands.ClearCache, async () => {
+				await dataProvider.clearCache();
+				vscode.window.showInformationMessage("Cache Cleared");
+			})
 		);
 	}
 

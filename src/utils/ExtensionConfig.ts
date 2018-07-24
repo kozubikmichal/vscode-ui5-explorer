@@ -24,7 +24,8 @@ export default class ExtensionConfig {
 
 	static readonly Commands = {
 		Render: "extension.ui5explorer.render",
-		Search: "extension.ui5explorer.search"
+		Search: "extension.ui5explorer.search",
+		ClearCache: "extension.ui5explorer.clearCache"
 	};
 
 	public get ProjectRoot(): string {

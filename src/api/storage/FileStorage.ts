@@ -4,6 +4,7 @@ import ExtensionConfig from "../../utils/ExtensionConfig";
 import * as fs from "fs";
 import * as path from "path";
 import * as mkdirp from "mkdirp";
+import * as rimraf from "rimraf";
 
 import IStorageComponent, { IStorageResponse, StorageResponseSource } from "./IStorageComponent";
 
@@ -52,6 +53,18 @@ class FileStorage extends IStorageComponent {
 				return this.writeFile(this.createPath(id), response.libraries[id]);
 			}))
 		).then(() => Promise.resolve());
+	}
+
+	public clear(): Promise<any> {
+		return new Promise((resolve, reject) => {
+			rimraf(path.join(this.extensionConfig.ProjectRoot, this.resourcesFolder), (err) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve();
+				}
+			});
+		});
 	}
 
 	private createPath(id: string): string {

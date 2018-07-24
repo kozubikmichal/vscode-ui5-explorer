@@ -21,6 +21,11 @@ export default class ApiTreeDataProvider implements vscode.TreeDataProvider<ApiT
 		this.extensionConfig.onChange(() => this.refresh());
 	}
 
+	async clearCache(): Promise<any> {
+		await this.storage.clear();
+		this.refresh();
+	}
+
 	refresh(): void {
 		this._onDidChangeTreeData.fire();
 	}

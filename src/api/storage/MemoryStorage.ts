@@ -48,6 +48,10 @@ class MemoryStorage extends IStorageComponent {
 		});
 	}
 
+	public async clear(): Promise<any> {
+		this.cache.clear();
+	}
+
 	private createKey(id: string): string {
 		return [
 			this.extensionConfig.getUI5Framework(),

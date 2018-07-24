@@ -23,4 +23,6 @@ export default abstract class IStorageComponent {
 	abstract tryGetLibrary(id: string): Promise<IStorageResponse | undefined>;
 
 	abstract storeResponse(response: IStorageResponse): Promise<void>;
+
+	abstract clear(): Promise<any>;
 }
