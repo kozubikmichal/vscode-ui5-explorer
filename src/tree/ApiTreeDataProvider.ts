@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import ApiTreeItem from "./ApiTreeItem";
 import { SymbolKind, SymbolVisibility } from "../api/IApiReference";
 import { Inject } from "typescript-ioc";
-import IStorage from "../api/IStorage";
+import IStorage from "../api/storage/IStorage";
 import ExtensionConfig from "../utils/ExtensionConfig";
 
 interface IApiTree {

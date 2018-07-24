@@ -1,5 +1,6 @@
 import { Singleton } from "typescript-ioc";
 import * as vscode from 'vscode';
+import * as path from "path";
 
 export type UI5Framework = "OpenUI5" | "SAPUI5";
 
@@ -25,6 +26,10 @@ export default class ExtensionConfig {
 		Render: "extension.ui5explorer.render",
 		Search: "extension.ui5explorer.search"
 	};
+
+	public get ProjectRoot(): string {
+		return path.join(__dirname, "../../");
+	}
 
 	constructor(
 		private code: typeof vscode

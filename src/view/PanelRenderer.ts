@@ -3,7 +3,7 @@ import { IApiReferenceLibrarySymbol, IApiReferenceUI5Metadata, SymbolVisibility 
 import IPanelRenderer from "./IPanelRenderer";
 import ApiConfig, { IUrlConfig } from "../api/ApiConfig";
 import ExtensionConfig from "../utils/ExtensionConfig";
-import { Inject } from "../../node_modules/typescript-ioc";
+import { Inject } from "typescript-ioc";
 
 export default class PanelRenderer extends IPanelRenderer {
 	@Inject private apiConfig!: ApiConfig;

@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
 import { IApiReferenceIndexSymbol, IApiReferenceLibrarySymbol } from "../api/IApiReference";
-import IStorage from "../api/IStorage";
+import IStorage from "../api/storage/IStorage";
 import { Inject } from "typescript-ioc";
 import IPanelRenderer from "./IPanelRenderer";
 

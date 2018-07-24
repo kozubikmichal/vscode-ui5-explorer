@@ -1,5 +1,4 @@
 import { Singleton, Inject } from "typescript-ioc";
-import * as vscode from 'vscode';
 
 import ExtensionConfig, { UI5Framework } from "../utils/ExtensionConfig";
 

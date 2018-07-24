@@ -1,4 +1,4 @@
-import { IApiReferenceIndex, IApiReferenceLibrary } from "./IApiReference";
+import { IApiReferenceIndex, IApiReferenceLibrary } from "../IApiReference";
 
 /**
  * Api modules storage

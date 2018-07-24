@@ -88,6 +88,7 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
+        "@types/mkdirp": "^0.5.2",
         "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
         "tslint": "^5.8.0",
@@ -98,6 +99,8 @@
         "axios": "^0.18.0",
         "fs": "0.0.1-security",
         "http": "0.0.0",
+        "mkdirp": "^0.5.1",
+        "path": "^0.12.7",
         "typescript-ioc": "^1.2.4"
     }
 }
