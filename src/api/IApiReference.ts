@@ -123,13 +123,13 @@ export interface IApiReferenceUI5MetadataAssociation {
 
 export interface IApiReferenceSymbolConstructor {
 	visibility: SymbolVisibility;
-	parameters: {
+	parameters?: {
 		name: string;
 		optional: boolean;
 		description: string;
 		phoneName: string;
 		depth: number;
-		types: {
+		types?: {
 			name: string;
 			linkEnabled: boolean;
 		}[];

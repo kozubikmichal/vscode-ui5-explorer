@@ -242,23 +242,27 @@ export default class PanelRenderer extends IPanelRenderer {
 			<h2 id="constructor" class="section">Constructor</h2>
 			${constructor.description}
 			<code>${constructor.codeExample}</code>
-			<table>
-				<tr>
-					<th>Param</th>
-					<th>Type</th>
-					<th>Default Value</th>
-					<th>Description</th>
-				</tr>
-				${constructor.parameters.map(param => `
-					<tr>
-						<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
-						<td>${param.types.map(t => `${t.linkEnabled ? `<a href="#/api/${t.name}">${t.name}</a>` : t.name}`).join(" | ")}</td>
-						<td>${param.defaultValue || ""}</td>
-						<td>${param.description}</td>
-					</tr>
-				`).join("")}
 
-			</table>
+			${constructor.parameters ? `
+				<table>
+					<tr>
+						<th>Param</th>
+						<th>Type</th>
+						<th>Default Value</th>
+						<th>Description</th>
+					</tr>
+					${constructor.parameters.map(param => `
+						<tr>
+							<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
+							<td>${param.types ? param.types.map(t => `${t.linkEnabled ? `<a href="#/api/${t.name}">${t.name}</a>` : t.name}`).join(" | ") : ''}</td>
+							<td>${param.defaultValue || ""}</td>
+							<td>${param.description}</td>
+						</tr>
+					`).join("")}
+
+				</table>
+			`: ''}
+
 			<br>
 		`;
 	}
