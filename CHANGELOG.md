@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to the **UI5 Explorer** extension will be documented here.
 
+## 0.3.0 - 2018-07-29
+- Configurable UI5 Version (currently supported only for 1.54.* versions due to different file structure for older versions)
+- Reload tree after configuration change
+- Added file cache
+- New **Clear Cache** command
+- Bugfixes (eg. for *sap.ui.base.EventProvider*)
+
 ## 0.2.0 - 2018-07-04
 - Collapsible/Expandable methods and events
 - Quick navigation to sections under the header
