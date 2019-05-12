@@ -100,7 +100,10 @@ export default class ApiTreeDataProvider implements vscode.TreeDataProvider<ApiT
 			name: label,
 			kind: SymbolKind.Namespace,
 			lib: "",
-			visibility: SymbolVisibility.Public
+			visibility: SymbolVisibility.Public,
+			displayName:label,
+			bIsDeprecated:false,
+			nodes:[]
 		});
 
 		item.wrapperOnly = true;

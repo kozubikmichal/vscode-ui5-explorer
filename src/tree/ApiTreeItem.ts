@@ -26,6 +26,9 @@ export default class ApiTreeItem extends vscode.TreeItem {
 
 	public update(): ApiTreeItem {
 		this.id = this.symbol.name;
+		if(this.symbol&&this.symbol.nodes){
+			this.children = this.symbol.nodes.map(n=>new ApiTreeItem(n));
+		}
 		this.label = this.IsRoot ? this.symbol.name : this.symbol.name.replace(`${this.parent.symbol.name}.`, "");
 		this.collapsibleState = this.HasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None;
 

@@ -27,12 +27,14 @@ export interface IApiReferenceIndexSymbol {
 	kind: SymbolKind;
 	visibility: SymbolVisibility;
 	lib: string;
+	displayName: string;
+	bIsDeprecated: boolean;
 	extends?: string;
+	nodes:IApiReferenceIndexSymbol[];
 	implements?: string[];
 	extendedBy?: string[];
 	implementedBy?: string[];
 }
-
 /******* Api Library *******/
 
 export interface IApiReferenceLibrary {
