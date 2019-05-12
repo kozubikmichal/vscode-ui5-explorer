@@ -27,7 +27,8 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "commands": [{
+        "commands": [
+            {
                 "command": "extension.ui5explorer.search",
                 "title": "Search",
                 "category": "UI5 Explorer",
@@ -40,41 +41,49 @@
             }
         ],
         "viewsContainers": {
-            "activitybar": [{
-                "id": "ui5-explorer",
-                "title": "UI5",
-                "icon": "media/ui5.png"
-            }]
+            "activitybar": [
+                {
+                    "id": "ui5-explorer",
+                    "title": "UI5",
+                    "icon": "media/ui5.png"
+                }
+            ]
         },
         "views": {
-            "ui5-explorer": [{
-                "id": "ui5ApiReference",
-                "name": "Api Reference"
-            }]
+            "ui5-explorer": [
+                {
+                    "id": "ui5ApiReference",
+                    "name": "Api Reference"
+                }
+            ]
         },
         "menus": {
-            "view/title": [{
-                "command": "extension.ui5explorer.search",
-                "when": "view == ui5ApiReference",
-                "group": "navigation"
-            }]
+            "view/title": [
+                {
+                    "command": "extension.ui5explorer.search",
+                    "when": "view == ui5ApiReference",
+                    "group": "navigation"
+                }
+            ]
         },
-        "configuration": [{
-            "title": "UI5 Explorer",
-            "properties": {
-                "ui5explorer.framework": {
-                    "enum": [
-                        "OpenUI5",
-                        "SAPUI5"
-                    ],
-                    "default": "OpenUI5"
-                },
-                "ui5explorer.version": {
-                    "type": "string",
-                    "default": ""
+        "configuration": [
+            {
+                "title": "UI5 Explorer",
+                "properties": {
+                    "ui5explorer.framework": {
+                        "enum": [
+                            "OpenUI5",
+                            "SAPUI5"
+                        ],
+                        "default": "OpenUI5"
+                    },
+                    "ui5explorer.version": {
+                        "type": "string",
+                        "default": ""
+                    }
                 }
             }
-        }]
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -88,9 +97,9 @@
         "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
         "@types/rimraf": "^2.0.2",
-        "tslint": "^5.8.0",
+        "tslint": "^5.16.0",
         "typescript": "^2.6.1",
-        "vscode": "^1.1.18"
+        "vscode": "^1.1.34"
     },
     "dependencies": {
         "axios": "^0.18.0",
