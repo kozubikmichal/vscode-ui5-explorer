@@ -5,6 +5,19 @@ import IStorage from "../api/storage/IStorage";
 import { Inject } from "typescript-ioc";
 import IPanelRenderer from "./IPanelRenderer";
 
+const findNode = (
+	  root:IApiReferenceIndexSymbol,
+	  name:string
+	):IApiReferenceIndexSymbol|undefined=>{
+		if(!root.nodes) {return;}
+		let found = root.nodes.find(s => s.name === name);
+		if (found){return found;}
+		for(const n of root.nodes){
+			found = findNode(n,name);
+			if (found){return found;}
+		}
+};
+
 export default class PanelsManager {
 	private panels: {
 		[key: string]: vscode.WebviewPanel
@@ -16,8 +29,13 @@ export default class PanelsManager {
 	public async show(item: string | IApiReferenceIndexSymbol) {
 		if (typeof item === "string") {
 			let index = await this.apiStorage.getApiIndex();
+			let symbol;
+			for(const root of index.symbols){
+				symbol = findNode(root,item);
+				if(symbol){break;}
+			}
 
-			this.showInternal(index.symbols.find(s => s.name === item) as IApiReferenceIndexSymbol);
+			if(symbol){this.showInternal(symbol);}
 		} else {
 			this.showInternal(item);
 		}

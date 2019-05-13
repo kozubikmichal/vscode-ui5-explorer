@@ -30,7 +30,7 @@ export interface IApiReferenceIndexSymbol {
 	displayName: string;
 	bIsDeprecated: boolean;
 	extends?: string;
-	nodes:IApiReferenceIndexSymbol[];
+	nodes?:IApiReferenceIndexSymbol[];
 	implements?: string[];
 	extendedBy?: string[];
 	implementedBy?: string[];
