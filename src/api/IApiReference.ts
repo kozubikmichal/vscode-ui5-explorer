@@ -31,6 +31,9 @@ export interface IApiReferenceIndexSymbol {
 	implements?: string[];
 	extendedBy?: string[];
 	implementedBy?: string[];
+	displayName?: string;
+	bIsDeprecated?: boolean;
+	nodes?: IApiReferenceIndexSymbol[];
 }
 
 /******* Api Library *******/
@@ -75,6 +78,7 @@ export interface IApiReferenceLibrarySymbolNode {
 	name: string;
 	ref: string;
 	description: string;
+	href?: string;
 }
 
 export interface IApiReferenceUI5Metadata {
@@ -135,7 +139,7 @@ export interface IApiReferenceSymbolConstructor {
 		}[];
 		defaultValue: string;
 	}[];
-	description: string;
+	description?: string;
 	references: string[];
 	codeExample: string;
 }
