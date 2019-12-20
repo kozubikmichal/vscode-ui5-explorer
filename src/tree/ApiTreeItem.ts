@@ -5,7 +5,7 @@ import ExtensionConfig from "../utils/ExtensionConfig";
 
 export default class ApiTreeItem extends vscode.TreeItem {
 	public children: ApiTreeItem[] = [];
-	public parent!: ApiTreeItem;
+	public parent?: ApiTreeItem;
 	public symbol!: IApiReferenceIndexSymbol;
 	public wrapperOnly: boolean = false;
 
@@ -26,7 +26,7 @@ export default class ApiTreeItem extends vscode.TreeItem {
 
 	public update(): ApiTreeItem {
 		this.id = this.symbol.name;
-		this.label = this.IsRoot ? this.symbol.name : this.symbol.name.replace(`${this.parent.symbol.name}.`, "");
+		this.label = this.IsRoot ? this.symbol.name : this.symbol.name.replace(`${this.parent!.symbol.name}.`, "");
 		this.collapsibleState = this.HasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None;
 
 		this.command = this.wrapperOnly ? undefined : {

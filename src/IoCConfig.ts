@@ -1,13 +1,15 @@
 import { Container, Scope } from "typescript-ioc";
 
-import Loader from "./api/Loader";
-import ILoader from "./api/ILoader";
 import IRequest from "./utils/IRequest";
 import Request from "./utils/Request";
-import IStorage from "./api/IStorage";
-import { MemoryStorage } from "./api/MemoryStorage";
+import IStorage from "./api/storage/IStorage";
 import IPanelRenderer from "./view/IPanelRenderer";
 import PanelRenderer from "./view/PanelRenderer";
+
+import * as vscode from 'vscode';
+import ExtensionConfig from "./utils/ExtensionConfig";
+import ApiConfig from "./api/ApiConfig";
+import Storage from "./api/storage/Storage";
 
 export default class Configuration {
 	static configure() {
@@ -16,9 +18,20 @@ export default class Configuration {
 		// maybe because of vscode env?
 		// ContainerConfig.addSource(["**/*", "!*.map"], "out");
 
-		Container.bind(ILoader).to(Loader);
 		Container.bind(IRequest).to(Request);
-		Container.bind(IStorage).to(MemoryStorage).scope(Scope.Singleton);
 		Container.bind(IPanelRenderer).to(PanelRenderer);
+		Container.bind(IStorage).to(Storage).scope(Scope.Singleton);
+
+		Container.bind(ExtensionConfig).provider({
+			get: () => {
+				return new ExtensionConfig(vscode);
+			}
+		}).scope(Scope.Singleton);
+
+		Container.bind(ApiConfig).provider({
+			get: () => {
+				return new ApiConfig();
+			}
+		}).scope(Scope.Singleton);
 	}
 }

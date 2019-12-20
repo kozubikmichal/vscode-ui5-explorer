@@ -3,7 +3,7 @@
     "displayName": "UI5 Explorer",
     "description": "UI5 Api Reference Explorer",
     "icon": "media/extension_icon.png",
-    "version": "0.1.0",
+    "version": "0.4.0",
     "publisher": "michalkozubik",
     "repository": {
         "type": "git",
@@ -33,6 +33,11 @@
                 "title": "Search",
                 "category": "UI5 Explorer",
                 "icon": "media/icon-search.svg"
+            },
+            {
+                "command": "extension.ui5explorer.clearCache",
+                "title": "Clear Cache",
+                "category": "UI5 Explorer"
             }
         ],
         "viewsContainers": {
@@ -71,6 +76,10 @@
                             "SAPUI5"
                         ],
                         "default": "OpenUI5"
+                    },
+                    "ui5explorer.version": {
+                        "type": "string",
+                        "default": ""
                     }
                 }
             }
@@ -84,16 +93,21 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
+        "@types/mkdirp": "^0.5.2",
         "@types/mocha": "^2.2.42",
-        "@types/node": "^7.0.43",
-        "tslint": "^5.8.0",
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.18"
+        "@types/node": "^7.10.9",
+        "@types/rimraf": "^2.0.3",
+        "tslint": "^5.16.0",
+        "typescript": "^2.9.2",
+        "vscode": "^1.1.34"
     },
     "dependencies": {
-        "axios": "^0.18.0",
+        "axios": "^0.18.1",
         "fs": "0.0.1-security",
         "http": "0.0.0",
-        "typescript-ioc": "^1.2.4"
+        "mkdirp": "^0.5.1",
+        "path": "^0.12.7",
+        "rimraf": "^2.7.1",
+        "typescript-ioc": "^1.2.5"
     }
 }

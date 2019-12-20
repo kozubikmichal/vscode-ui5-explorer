@@ -31,6 +31,9 @@ export interface IApiReferenceIndexSymbol {
 	implements?: string[];
 	extendedBy?: string[];
 	implementedBy?: string[];
+	displayName?: string;
+	bIsDeprecated?: boolean;
+	nodes?: IApiReferenceIndexSymbol[];
 }
 
 /******* Api Library *******/
@@ -75,6 +78,7 @@ export interface IApiReferenceLibrarySymbolNode {
 	name: string;
 	ref: string;
 	description: string;
+	href?: string;
 }
 
 export interface IApiReferenceUI5Metadata {
@@ -82,6 +86,7 @@ export interface IApiReferenceUI5Metadata {
 	properties: IApiReferenceUI5MetadataProperty[];
 	aggregations: IApiReferenceUI5MetadataAggregation[];
 	associations: IApiReferenceUI5MetadataAssociation[];
+	defaultAggregation: string;
 	designtime: string;
 }
 
@@ -122,19 +127,19 @@ export interface IApiReferenceUI5MetadataAssociation {
 
 export interface IApiReferenceSymbolConstructor {
 	visibility: SymbolVisibility;
-	parameters: {
+	parameters?: {
 		name: string;
 		optional: boolean;
 		description: string;
 		phoneName: string;
 		depth: number;
-		types: {
+		types?: {
 			name: string;
 			linkEnabled: boolean;
 		}[];
 		defaultValue: string;
 	}[];
-	description: string;
+	description?: string;
 	references: string[];
 	codeExample: string;
 }
@@ -152,6 +157,12 @@ export interface IApiReferenceSymbolEvent {
 		phoneName?: string;
 	}[];
 	description: string;
+	deprecated: {
+		since: string;
+		text: string;
+	};
+	deprecatedText: string;
+	code: string;
 }
 
 export interface IApiReferenceSymbolMethod {
@@ -172,7 +183,8 @@ export interface IApiReferenceSymbolMethod {
 		description: string;
 		types: {
 			value: string;
-			href: string;
+			href?: string;
+			linkEnabled?: boolean
 		}[];
 		defaultValue: string;
 	}[];
