@@ -225,9 +225,25 @@ export default class PanelRenderer extends IPanelRenderer {
 	}
 
 	private buildOverview(symbol: IApiReferenceLibrarySymbol): string {
-		return symbol.description ? `
+		return symbol.description || symbol.nodes ? `
 			<h2 id="overview" class="section">Overview</h2>
-			${symbol.description}
+			${symbol.description || ""}
+
+			${symbol.nodes ? `
+				<table>
+					<tr>
+						<th>Namespaces & Classes</th>
+						<th>Description</th>
+					</tr>
+					${symbol.nodes.map(node => `
+						<tr>
+							<td>${node.href ? `<a href="#/${node.href}">${node.name}</a>` : node.name}</td>
+							<td>${node.description}</td>
+						</tr>
+					`).join("")}
+
+				</table>
+			`: ''}
 		` : "";
 	}
 
@@ -341,8 +357,8 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td><strong>${aggregation.name}</strong>${metadata.defaultAggregation === aggregation.name ? " (default)" : ""}</td>
 						<td>${aggregation.cardinality}</td>
 						<td>${aggregation.type ? (aggregation.linkEnabled
-					? `<a href="#/api/${aggregation.type}">${aggregation.type}</a>`
-					: aggregation.type) : ""}
+				? `<a href="#/api/${aggregation.type}">${aggregation.type}</a>`
+				: aggregation.type) : ""}
 						</td>
 						<td>${aggregation.description}</td>
 					</tr>
@@ -374,8 +390,8 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td><strong>${association.name}</strong></td>
 						<td>${association.cardinality}</td>
 						<td>${association.type ? (association.linkEnabled
-					? `<a href="#/api/${association.type}">${association.type}</a>`
-					: association.type) : ""}
+				? `<a href="#/api/${association.type}">${association.type}</a>`
+				: association.type) : ""}
 						</td>
 						<td>${association.description}</td>
 					</tr>
@@ -412,8 +428,8 @@ export default class PanelRenderer extends IPanelRenderer {
 								<tr>
 									<td>${"&nbsp;&nbsp;".repeat(param.depth || 0)}<strong>${param.name}${param.optional ? "?" : ""}</strong></td>
 									<td>${param.type ? (param.linkEnabled
-							? `<a href="#/api/${param.type}">${param.type}</a>`
-							: param.type) : ""}
+				? `<a href="#/api/${param.type}">${param.type}</a>`
+				: param.type) : ""}
 									</td>
 									<td>${param.description}</td>
 								</tr>
@@ -421,7 +437,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 						</table>
 						` : ""
-				}
+			}
 					<br>
 				</div>
 			`).join("")
@@ -457,15 +473,15 @@ export default class PanelRenderer extends IPanelRenderer {
 								<tr>
 									<td><strong>${param.name}${param.optional ? "?" : ""}</strong></td>
 									<td>${param.types.map(t => `${t.linkEnabled
-							? `<a href="#/api/${t.value}">${t.value}</a>`
-							: t.value
-							}`).join(" | ")}
+			? `<a href="#/api/${t.value}">${t.value}</a>`
+			: t.value
+			}`).join(" | ")}
 									</td>
 									<td>${param.defaultValue}</td>
 									<td>${param.description}</td>
 								</tr>
 							`).join("")
-					}
+				}
 						</table>
 						<br>
 						`: ""}

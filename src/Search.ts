@@ -3,23 +3,20 @@ import * as vscode from 'vscode';
 import ExtensionConfig from './utils/ExtensionConfig';
 import { Inject } from 'typescript-ioc';
 import IStorage from './api/storage/IStorage';
+import { IApiReferenceIndex } from './api/IApiReference';
+import dataProcessing from './utils/dataProcessing';
 
 export default class Search {
 	@Inject private storage!: IStorage;
 
 	public async run(): Promise<void> {
-		let items = (await this.storage.getApiIndex()).symbols;
+		let index = await this.storage.getApiIndex();
+		let items = this.buildItems(index);
 
-		vscode.window.showQuickPick(
-			items.map(item => {
-				return {
-					label: item.name,
-					description: item.lib
-				};
-			}), {
-				canPickMany: false,
-				placeHolder: "Start typing..."
-			}
+		vscode.window.showQuickPick(items, {
+			canPickMany: false,
+			placeHolder: "Start typing..."
+		}
 		).then(selected => this.searchResultHandler(selected));
 	}
 
@@ -27,5 +24,16 @@ export default class Search {
 		if (result) {
 			vscode.commands.executeCommand(ExtensionConfig.Commands.Render, result.label);
 		}
+	}
+
+	private buildItems(index: IApiReferenceIndex): vscode.QuickPickItem[] {
+		return dataProcessing
+			.flattenIndex(index)
+			.map(node => {
+				return {
+					label: node.name,
+					description: node.lib
+				};
+			});
 	}
 }

@@ -4,6 +4,7 @@ import { IApiReferenceIndexSymbol, IApiReferenceLibrarySymbol } from "../api/IAp
 import IStorage from "../api/storage/IStorage";
 import { Inject } from "typescript-ioc";
 import IPanelRenderer from "./IPanelRenderer";
+import dataProcessing from "../utils/dataProcessing";
 
 export default class PanelsManager {
 	private panels: {
@@ -16,8 +17,9 @@ export default class PanelsManager {
 	public async show(item: string | IApiReferenceIndexSymbol) {
 		if (typeof item === "string") {
 			let index = await this.apiStorage.getApiIndex();
+			let symbols = dataProcessing.flattenIndex(index);
 
-			this.showInternal(index.symbols.find(s => s.name === item) as IApiReferenceIndexSymbol);
+			this.showInternal(symbols.find(s => s.name === item) as IApiReferenceIndexSymbol);
 		} else {
 			this.showInternal(item);
 		}
