@@ -69,7 +69,7 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-## 0.3.1 - 2019-12-20
+## 0.4.0
 - Added support for UI5 >= 1.63
 - Undefined description is not rendered anymore
 - Updated axios version

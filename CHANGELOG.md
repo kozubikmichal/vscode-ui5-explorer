@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to the **UI5 Explorer** extension will be documented here.
 
-## 0.3.1 - 2019-12-20
+## 0.4.0 - 2019-12-20
 - Added support for UI5 >= 1.63
 - Undefined description is not rendered anymore
 - Updated axios version
