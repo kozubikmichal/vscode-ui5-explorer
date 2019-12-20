@@ -69,6 +69,11 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+## 0.3.1 - 2019-12-20
+- Added support for UI5 >= 1.63
+- Undefined description is not rendered anymore
+- Updated axios version
+
 ## 0.3.0
 - Configurable UI5 Version (limited usage)
 - Reload tree after configuration change
