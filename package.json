@@ -3,7 +3,7 @@
     "displayName": "UI5 Explorer",
     "description": "UI5 Api Reference Explorer",
     "icon": "media/extension_icon.png",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "publisher": "michalkozubik",
     "repository": {
         "type": "git",
