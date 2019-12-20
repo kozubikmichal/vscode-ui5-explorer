@@ -23,7 +23,5 @@ export default class ExtensionManager {
 		);
 	}
 
-	public deactivate() {
-
-	}
+	public deactivate() { }
 }
