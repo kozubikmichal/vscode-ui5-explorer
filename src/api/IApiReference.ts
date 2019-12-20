@@ -139,7 +139,7 @@ export interface IApiReferenceSymbolConstructor {
 		}[];
 		defaultValue: string;
 	}[];
-	description: string;
+	description?: string;
 	references: string[];
 	codeExample: string;
 }

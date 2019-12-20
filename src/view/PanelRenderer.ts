@@ -256,7 +256,7 @@ export default class PanelRenderer extends IPanelRenderer {
 
 		return `
 			<h2 id="constructor" class="section">Constructor</h2>
-			${constructor.description}
+			${constructor.description || ""}
 			<code>${constructor.codeExample}</code>
 
 			${constructor.parameters ? `
@@ -478,7 +478,7 @@ export default class PanelRenderer extends IPanelRenderer {
 			}`).join(" | ")}
 									</td>
 									<td>${param.defaultValue}</td>
-									<td>${param.description}</td>
+									<td>${param.description || ""}</td>
 								</tr>
 							`).join("")
 				}
