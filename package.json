@@ -97,9 +97,9 @@
         "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
         "@types/rimraf": "^2.0.2",
-        "tslint": "^5.8.0",
+        "tslint": "^5.16.0",
         "typescript": "^2.6.1",
-        "vscode": "^1.1.18"
+        "vscode": "^1.1.34"
     },
     "dependencies": {
         "axios": "^0.18.1",
