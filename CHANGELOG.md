@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to the **UI5 Explorer** extension will be documented here.
 
-## 0.4.1 - 2020-08-27
+## 0.5.0 - 2020-08-27
 - Added support for **Deprecated** flag
 
 ## 0.4.0 - 2019-12-20

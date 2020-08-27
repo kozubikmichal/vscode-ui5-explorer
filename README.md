@@ -69,7 +69,7 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-## 0.4.1
+## 0.5.0
 - Added support for **Deprecated** flag
 
 ## 0.4.0
