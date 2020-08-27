@@ -36,6 +36,11 @@ export interface IApiReferenceIndexSymbol {
 	nodes?: IApiReferenceIndexSymbol[];
 }
 
+export interface IApiReferenceDeprecatedInfo {
+	since: string;
+	text: string;
+}
+
 /******* Api Library *******/
 
 export interface IApiReferenceLibrary {
@@ -78,6 +83,7 @@ export interface IApiReferenceLibrarySymbolNode {
 	name: string;
 	ref: string;
 	description: string;
+	deprecated?: boolean;
 	href?: string;
 }
 
@@ -99,6 +105,7 @@ export interface IApiReferenceUI5MetadataProperty {
 	description: string;
 	methods: string[];
 	linkEnabled?: boolean;
+	deprecatedText?: string;
 }
 
 export interface IApiReferenceUI5MetadataAggregation {
@@ -112,6 +119,7 @@ export interface IApiReferenceUI5MetadataAggregation {
 	description: string;
 	methods: string[];
 	linkEnabled: boolean;
+	deprecated?: IApiReferenceDeprecatedInfo;
 }
 
 export interface IApiReferenceUI5MetadataAssociation {
@@ -123,6 +131,7 @@ export interface IApiReferenceUI5MetadataAssociation {
 	description: string;
 	methods: string[];
 	linkEnabled: boolean;
+	deprecated?: IApiReferenceDeprecatedInfo;
 }
 
 export interface IApiReferenceSymbolConstructor {
@@ -157,10 +166,7 @@ export interface IApiReferenceSymbolEvent {
 		phoneName?: string;
 	}[];
 	description: string;
-	deprecated: {
-		since: string;
-		text: string;
-	};
+	deprecated: IApiReferenceDeprecatedInfo;
 	deprecatedText: string;
 	code: string;
 }
@@ -190,10 +196,13 @@ export interface IApiReferenceSymbolMethod {
 	}[];
 	description: string;
 	code: string;
+	deprecated?: IApiReferenceDeprecatedInfo;
+	deprecatedText?: string;
 }
 
 export interface IApiReferenceSymbolProperty {
 	name: string;
 	visibility: SymbolVisibility;
 	description: string;
+	deprecated?: IApiReferenceDeprecatedInfo
 }

@@ -70,6 +70,9 @@ export default class PanelRenderer extends IPanelRenderer {
 				.grid-item {
 					text-align: left;
 				}
+				.deprecated {
+					color: orange;
+				}
 				th, td {
 					border-bottom-style: solid;
 					border-bottom-width: 1px;
@@ -237,13 +240,14 @@ export default class PanelRenderer extends IPanelRenderer {
 					</tr>
 					${symbol.nodes.map(node => `
 						<tr>
-							<td>${node.href ? `<a href="#/${node.href}">${node.name}</a>` : node.name}</td>
+							<td>${node.href ? `<a href="#/${node.href}">${node.name}</a>` : node.name} ${node.deprecated ? `<br><code class="deprecated">Deprecated</code>` : ""} </td>
 							<td>${node.description}</td>
 						</tr>
-					`).join("")}
+					`).join("")
+				}
 
 				</table>
-			`: ''}
+	`: ''}
 		` : "";
 	}
 
@@ -296,7 +300,10 @@ export default class PanelRenderer extends IPanelRenderer {
 
 				${properties.map(prop => `
 					<tr>
-						<td><strong>${prop.name}</strong></td>
+						<td>
+							<strong>${prop.name}</strong>
+							${prop.deprecated ? `<br /><code class="deprecated">Deprecated</code>` : ""}
+						</td>
 						<td>${prop.description} Visibility: ${prop.visibility}</td>
 					</tr>
 				`).join("")}
@@ -327,7 +334,10 @@ export default class PanelRenderer extends IPanelRenderer {
 						<td><strong>${prop.name}</strong></td>
 						<td>${prop.type ? (prop.linkEnabled ? `<a href="#/api/${prop.type}">${prop.type}</a>` : prop.type) : ""}</td>
 						<td>${prop.defaultValue || ""}</td>
-						<td>${prop.description} Visibility: ${prop.visibility}</td>
+						<td>
+							${prop.description} Visibility: ${prop.visibility}
+							${prop.deprecatedText ? `<br><code class="deprecated">${prop.deprecatedText}</code>` : ""}
+						</td>
 					</tr>
 				`).join("")}
 			</table>
@@ -354,7 +364,11 @@ export default class PanelRenderer extends IPanelRenderer {
 
 				${aggregations.filter(a => a.visibility !== SymbolVisibility.Hidden).map(aggregation => `
 					<tr>
-						<td><strong>${aggregation.name}</strong>${metadata.defaultAggregation === aggregation.name ? " (default)" : ""}</td>
+						<td>
+							<strong>${aggregation.name}</strong>
+							${metadata.defaultAggregation === aggregation.name ? " (default)" : ""}
+							${aggregation.deprecated ? `<br><code class="deprecated">${aggregation.deprecated?.text || "Deprecated"}</code>` : ""}
+						</td>
 						<td>${aggregation.cardinality}</td>
 						<td>${aggregation.type ? (aggregation.linkEnabled
 				? `<a href="#/api/${aggregation.type}">${aggregation.type}</a>`
@@ -375,6 +389,7 @@ export default class PanelRenderer extends IPanelRenderer {
 		}
 
 		let { associations } = metadata;
+
 		return associations ? `
 			<h2 id="associations" class="section">Associations</h2>
 			<table>
@@ -387,7 +402,10 @@ export default class PanelRenderer extends IPanelRenderer {
 
 				${associations.filter(a => a.visibility !== SymbolVisibility.Hidden).map(association => `
 					<tr>
-						<td><strong>${association.name}</strong></td>
+						<td>
+							<strong>${association.name}</strong>
+							${association.deprecated ? `<br><code class="deprecated">${association.deprecated?.text || "Deprecated"}</code>` : ""}
+						</td>
 						<td>${association.cardinality}</td>
 						<td>${association.type ? (association.linkEnabled
 				? `<a href="#/api/${association.type}">${association.type}</a>`
@@ -411,6 +429,7 @@ export default class PanelRenderer extends IPanelRenderer {
 			${events.filter(e => e.visibility !== SymbolVisibility.Hidden).map(event => `
 				<div class="accordion">
 					<h3 id="${event.name}" class="accordion-title">${event.name}</h3>
+					${event.deprecated ? `<code class="deprecated">${event.deprecatedText || "Deprecated"}</code>` : ""}
 					<code class="accordion-description">${event.code || ""}</code>
 				</div>
 
@@ -454,6 +473,7 @@ export default class PanelRenderer extends IPanelRenderer {
 			${methods.filter(m => m.visibility !== SymbolVisibility.Hidden).map(method => `
 				<div class="accordion">
 					<h3 id="${method.name}" class="accordion-title">${method.name}</h3>
+					${method.deprecated ? `<code class="deprecated">${method.deprecatedText || "Deprecated"}</code>` : ""}
 					<code class="accordion-description">${method.code || ""}</code>
 				</div>
 
