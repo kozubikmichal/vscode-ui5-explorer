@@ -69,6 +69,9 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+## 0.4.1
+- Added support for **Deprecated** flag
+
 ## 0.4.0
 - Added support for UI5 >= 1.63
 - Undefined description is not rendered anymore
